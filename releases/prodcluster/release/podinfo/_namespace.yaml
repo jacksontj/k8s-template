@@ -64,7 +64,8 @@
                "prometheus.io/scrape": "true"
             },
             "labels": {
-               "app": "podinfo"
+               "app": "podinfo",
+               "env": "prod"
             }
          },
          "spec": {

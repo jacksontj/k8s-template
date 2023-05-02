@@ -29,6 +29,7 @@ function(ctx) [
           },
           labels: {
             app: 'podinfo',
+            env: ctx.Environment,
           },
         },
         spec: {
