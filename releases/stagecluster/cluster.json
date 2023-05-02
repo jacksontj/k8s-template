@@ -1,0 +1,7 @@
+{
+   "Environment": "stage",
+   "Name": "stagecluster",
+   "Namespaces": [
+      "podinfo"
+   ]
+}

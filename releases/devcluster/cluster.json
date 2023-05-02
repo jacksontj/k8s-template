@@ -1,0 +1,7 @@
+{
+   "Environment": "dev",
+   "Name": "devcluster",
+   "Namespaces": [
+      "podinfo"
+   ]
+}

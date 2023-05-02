@@ -1,0 +1,7 @@
+{
+   "Environment": "prod",
+   "Name": "prodcluster",
+   "Namespaces": [
+      "podinfo"
+   ]
+}
