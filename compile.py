@@ -15,6 +15,7 @@ def run_jsonnet(cmd):
     p = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     if p.returncode != 0:
+        print ('stdout', stdout)
         raise Exception("jsonnet error: %s" % stderr)
     return stdout
 
@@ -40,7 +41,8 @@ def compile_cluster(cluster):
         fpath = os.path.join('./apps', namespace, '_namespace.jsonnet')
         if not os.path.exists(fpath):
             continue
-        cmd = ["jsonnet", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+cluster_output]
+        #cmd = ["jsonnet", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+cluster_output]
+        cmd = ["./jsonnet-extended.py", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+cluster_output]
         stdout = run_jsonnet(cmd)
         # if there was no output, we'll skip this (as its not wanted in this cluster)
         if not stdout.strip():
