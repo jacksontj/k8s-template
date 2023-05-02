@@ -27,12 +27,12 @@ def compile_cluster(cluster):
     cluster_data = json.loads(cluster_data_raw)
     if cluster_data['Name'] != cluster:
         raise Exception('cluster Name should match the filename')
-    output = os.path.join('./releases/', cluster, 'cluster.json')
+    cluster_output = os.path.join('./releases/', cluster, 'cluster.json')
     # ensure the output dir exists
-    output_dir = os.path.dirname(output)
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    with open(output, 'wb') as fh:
+    cluster_output_dir = os.path.dirname(cluster_output)
+    if not os.path.exists(cluster_output_dir):
+        os.makedirs(cluster_output_dir)
+    with open(cluster_output, 'wb') as fh:
         fh.write(cluster_data_raw)
 
     for namespace in cluster_data.get('Namespaces', []):
@@ -40,7 +40,7 @@ def compile_cluster(cluster):
         fpath = os.path.join('./apps', namespace, '_namespace.jsonnet')
         if not os.path.exists(fpath):
             continue
-        cmd = ["jsonnet", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+output]
+        cmd = ["jsonnet", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+cluster_output]
         stdout = run_jsonnet(cmd)
         # if there was no output, we'll skip this (as its not wanted in this cluster)
         if not stdout.strip():
