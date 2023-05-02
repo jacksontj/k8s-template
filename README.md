@@ -3,6 +3,12 @@
 This repository is aspiring to be a template for enterprise managment of k8s resources.
 
 
+## Build/Usage/Compilation Notes
+
+- (1) Each cluster in `clusters/*.jsonnet` is built to determine the full set of clusters to build
+- (2) for each cluster; all the apps (as linked in `ctx.Namespaces`) are compiled into a release directory (`releases/CLUSTERNAME/release`) with a kustomization.yaml
+- (3) a set of tests are run against the output manifests
+
 ## Example topology
 
 3 distinct accounts (dev, stage, prod) with 1 cluster per account.
