@@ -66,21 +66,13 @@ def compile_cluster(cluster):
             os.rmdir(dirpath)
 
 
-    # TODO: move to method to duplicate?
-    kustomization = {
-        'apiVersion': 'kustomize.config.k8s.io/v1beta1',
-        'kind': 'Kustomization',
-        'resources': [],
-    }
-    
-    output = "./releases/"+cluster+"/release/kustomization.yaml"
-    for fpath in files:
-        kustomization['resources'].append(os.path.relpath(fpath, os.path.dirname(output)))
-    
-    sorted(kustomization['resources'])
-
-    with open(output, "w") as f:
-        f.write(yaml.dump(kustomization))
+    # Create kustomization yaml
+    kustomize_path = "./releases/"+cluster+"/release/kustomization.yaml"
+    with open(kustomize_path, "w") as f:
+        f.write(yaml.dump({
+            'apiversion': 'kustomize.config.k8s.io/v1beta1',
+            'kind': 'Kustomization',
+            'resources': [os.path.relpath(f, os.path.dirname(kustomize_path)) for f in sorted(files)]}))
 
 # TODO: parallelize
 for cluster in clusters:
