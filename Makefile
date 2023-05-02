@@ -1,13 +1,12 @@
 .PHONY: all
-all: fmt compile
+all: fmt compile test
 
 .PHONY: compile
 compile:
 	python3 compile.py
 
 test:
-	#python3 test.py
-	find ./releases/*/release/ | grep json | xargs kubeval --exit-on-error --strict --kubernetes-version=1.16.3 --skip-kinds=CustomResourceDefinition,ClusterIssuer,Certificate,VolumeSnapshotClass
+	python3 test.py
 
 fmt:
 	find . -name '*.jsonnet' | xargs jsonnetfmt -i

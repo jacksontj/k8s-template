@@ -4,6 +4,7 @@ function(ctx) [
     kind: 'Deployment',
     metadata: {
       name: 'podinfo',
+      namespace: 'podinfo',
     },
     spec: {
       minReadySeconds: 3,

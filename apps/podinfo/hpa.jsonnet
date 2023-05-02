@@ -4,6 +4,7 @@ function(ctx) [
     kind: 'HorizontalPodAutoscaler',
     metadata: {
       name: 'podinfo',
+      namespace: 'podinfo',
     },
     spec: {
       scaleTargetRef: {

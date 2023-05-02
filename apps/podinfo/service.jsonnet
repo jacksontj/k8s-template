@@ -4,6 +4,7 @@ function(ctx) [
     kind: 'Service',
     metadata: {
       name: 'podinfo',
+      namespace: 'podinfo',
     },
     spec: {
       type: 'ClusterIP',
