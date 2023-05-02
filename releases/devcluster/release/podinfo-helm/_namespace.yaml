@@ -1,0 +1,326 @@
+---
+{
+   "apiVersion": "v1",
+   "kind": "Namespace",
+   "metadata": {
+      "labels": {
+         "name": "podinfo-helm"
+      },
+      "name": "podinfo-helm"
+   }
+}
+---
+{
+   "apiVersion": "rbac.authorization.k8s.io/v1",
+   "kind": "RoleBinding",
+   "metadata": {
+      "labels": {
+         "addonmanager.kubernetes.io/mode": "EnsureExists",
+         "kubernetes.io/cluster-service": "true"
+      },
+      "name": "k8s-users",
+      "namespace": "podinfo-helm"
+   },
+   "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "ClusterRole",
+      "name": "admin"
+   },
+   "subjects": [
+      {
+         "apiGroup": "rbac.authorization.k8s.io",
+         "kind": "Group",
+         "name": "automatedoperations:k8s-users"
+      }
+   ]
+}
+---
+{
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+      "labels": {
+         "app.kubernetes.io/managed-by": "Helm",
+         "app.kubernetes.io/name": "release-name-podinfo",
+         "app.kubernetes.io/version": "6.3.5",
+         "helm.sh/chart": "podinfo-6.3.5"
+      },
+      "name": "release-name-podinfo",
+      "namespace": "podinfo-helm"
+   },
+   "spec": {
+      "ports": [
+         {
+            "name": "http",
+            "port": 9898,
+            "protocol": "TCP",
+            "targetPort": "http"
+         },
+         {
+            "name": "grpc",
+            "port": 9999,
+            "protocol": "TCP",
+            "targetPort": "grpc"
+         }
+      ],
+      "selector": {
+         "app.kubernetes.io/name": "release-name-podinfo"
+      },
+      "type": "ClusterIP"
+   }
+}
+---
+{
+   "apiVersion": "apps/v1",
+   "kind": "Deployment",
+   "metadata": {
+      "labels": {
+         "app.kubernetes.io/managed-by": "Helm",
+         "app.kubernetes.io/name": "release-name-podinfo",
+         "app.kubernetes.io/version": "6.3.5",
+         "helm.sh/chart": "podinfo-6.3.5"
+      },
+      "name": "release-name-podinfo",
+      "namespace": "podinfo-helm"
+   },
+   "spec": {
+      "replicas": 1,
+      "selector": {
+         "matchLabels": {
+            "app.kubernetes.io/name": "release-name-podinfo"
+         }
+      },
+      "strategy": {
+         "rollingUpdate": {
+            "maxUnavailable": 1
+         },
+         "type": "RollingUpdate"
+      },
+      "template": {
+         "metadata": {
+            "annotations": {
+               "prometheus.io/port": "9898",
+               "prometheus.io/scrape": "true"
+            },
+            "labels": {
+               "app.kubernetes.io/name": "release-name-podinfo"
+            }
+         },
+         "spec": {
+            "containers": [
+               {
+                  "command": [
+                     "./podinfo",
+                     "--port=9898",
+                     "--cert-path=/data/cert",
+                     "--port-metrics=9797",
+                     "--grpc-port=9999",
+                     "--grpc-service-name=podinfo",
+                     "--level=info",
+                     "--random-delay=false",
+                     "--random-error=false"
+                  ],
+                  "env": [
+                     {
+                        "name": "PODINFO_UI_COLOR",
+                        "value": "#34577c"
+                     }
+                  ],
+                  "image": "ghcr.io/stefanprodan/podinfo:6.3.5",
+                  "imagePullPolicy": "IfNotPresent",
+                  "livenessProbe": {
+                     "exec": {
+                        "command": [
+                           "podcli",
+                           "check",
+                           "http",
+                           "localhost:9898/healthz"
+                        ]
+                     },
+                     "failureThreshold": 3,
+                     "initialDelaySeconds": 1,
+                     "periodSeconds": 10,
+                     "successThreshold": 1,
+                     "timeoutSeconds": 5
+                  },
+                  "name": "podinfo",
+                  "ports": [
+                     {
+                        "containerPort": 9898,
+                        "name": "http",
+                        "protocol": "TCP"
+                     },
+                     {
+                        "containerPort": 9797,
+                        "name": "http-metrics",
+                        "protocol": "TCP"
+                     },
+                     {
+                        "containerPort": 9999,
+                        "name": "grpc",
+                        "protocol": "TCP"
+                     }
+                  ],
+                  "readinessProbe": {
+                     "exec": {
+                        "command": [
+                           "podcli",
+                           "check",
+                           "http",
+                           "localhost:9898/readyz"
+                        ]
+                     },
+                     "failureThreshold": 3,
+                     "initialDelaySeconds": 1,
+                     "periodSeconds": 10,
+                     "successThreshold": 1,
+                     "timeoutSeconds": 5
+                  },
+                  "resources": {
+                     "limits": null,
+                     "requests": {
+                        "cpu": "1m",
+                        "memory": "16Mi"
+                     }
+                  },
+                  "volumeMounts": [
+                     {
+                        "mountPath": "/data",
+                        "name": "data"
+                     }
+                  ]
+               }
+            ],
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+               {
+                  "emptyDir": {},
+                  "name": "data"
+               }
+            ]
+         }
+      }
+   }
+}
+---
+{
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+      "annotations": {
+         "appmesh.k8s.aws/sidecarInjectorWebhook": "disabled",
+         "helm.sh/hook": "test-success",
+         "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded",
+         "linkerd.io/inject": "disabled",
+         "sidecar.istio.io/inject": "false"
+      },
+      "labels": {
+         "app.kubernetes.io/managed-by": "Helm",
+         "app.kubernetes.io/name": "release-name-podinfo",
+         "app.kubernetes.io/version": "6.3.5",
+         "helm.sh/chart": "podinfo-6.3.5"
+      },
+      "name": "release-name-podinfo-grpc-test-ema30",
+      "namespace": "podinfo-helm"
+   },
+   "spec": {
+      "containers": [
+         {
+            "args": [
+               "-addr=release-name-podinfo.default:9999"
+            ],
+            "command": [
+               "grpc_health_probe"
+            ],
+            "image": "stefanprodan/grpc_health_probe:v0.3.0",
+            "name": "grpc-health-probe"
+         }
+      ],
+      "restartPolicy": "Never"
+   }
+}
+---
+{
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+      "annotations": {
+         "appmesh.k8s.aws/sidecarInjectorWebhook": "disabled",
+         "helm.sh/hook": "test-success",
+         "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded",
+         "linkerd.io/inject": "disabled",
+         "sidecar.istio.io/inject": "false"
+      },
+      "labels": {
+         "app.kubernetes.io/managed-by": "Helm",
+         "app.kubernetes.io/name": "release-name-podinfo",
+         "app.kubernetes.io/version": "6.3.5",
+         "helm.sh/chart": "podinfo-6.3.5"
+      },
+      "name": "release-name-podinfo-jwt-test-2cqse",
+      "namespace": "podinfo-helm"
+   },
+   "spec": {
+      "containers": [
+         {
+            "command": [
+               "sh",
+               "-c",
+               "TOKEN=$(curl -sd 'test' ${PODINFO_SVC}/token | jq -r .token) &&\ncurl -sH \"Authorization: Bearer ${TOKEN}\" ${PODINFO_SVC}/token/validate | grep test\n"
+            ],
+            "env": [
+               {
+                  "name": "PODINFO_SVC",
+                  "value": "release-name-podinfo.default:9898"
+               }
+            ],
+            "image": "giantswarm/tiny-tools",
+            "name": "tools"
+         }
+      ],
+      "restartPolicy": "Never"
+   }
+}
+---
+{
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+      "annotations": {
+         "appmesh.k8s.aws/sidecarInjectorWebhook": "disabled",
+         "helm.sh/hook": "test-success",
+         "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded",
+         "linkerd.io/inject": "disabled",
+         "sidecar.istio.io/inject": "false"
+      },
+      "labels": {
+         "app.kubernetes.io/managed-by": "Helm",
+         "app.kubernetes.io/name": "release-name-podinfo",
+         "app.kubernetes.io/version": "6.3.5",
+         "helm.sh/chart": "podinfo-6.3.5"
+      },
+      "name": "release-name-podinfo-service-test-uiesc",
+      "namespace": "podinfo-helm"
+   },
+   "spec": {
+      "containers": [
+         {
+            "command": [
+               "sh",
+               "-c",
+               "curl -s ${PODINFO_SVC}/api/info | grep version\n"
+            ],
+            "env": [
+               {
+                  "name": "PODINFO_SVC",
+                  "value": "release-name-podinfo.default:9898"
+               }
+            ],
+            "image": "curlimages/curl:7.69.0",
+            "name": "curl"
+         }
+      ],
+      "restartPolicy": "Never"
+   }
+}
+...
