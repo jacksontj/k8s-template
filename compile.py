@@ -15,7 +15,6 @@ def run_jsonnet(cmd):
     p = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     if p.returncode != 0:
-        print ('stdout', stdout)
         raise Exception("jsonnet error: %s" % stderr)
     return stdout
 
