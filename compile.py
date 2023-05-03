@@ -14,11 +14,11 @@ executor = concurrent.futures.ThreadPoolExecutor()
 
 clusters = [x.split('./clusters/')[1].rsplit('.jsonnet')[0] for x in glob.glob("./clusters/*.jsonnet")]
 
-def run_jsonnet(cmd):
+def run_cmd(cmd):
     p = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     if p.returncode != 0:
-        raise Exception("jsonnet error: %s" % stderr)
+        raise Exception("run_cmd error: %s" % stderr)
     return stdout
 
 # build a specific namespace and return the filepath written
@@ -28,8 +28,9 @@ def compile_cluster_namespace(cluster, cluster_output, namespace):
     if not os.path.exists(fpath):
         raise Exception('Namespace file %s not found for cluster %s' % (fpath, cluster))
     cmd = ["./jsonnet-extended.py", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+cluster_output]
-    stdout = run_jsonnet(cmd)
-    # if there was no output, we'll skip this (as its not wanted in this cluster)
+    stdout = run_cmd(cmd)
+
+    # as we explicitly require includes; we'll consider no results an error
     if not stdout.strip():
         raise Exception('Namespace %s returned nothing!' % namespace)
 
@@ -47,7 +48,7 @@ def compile_cluster(cluster):
     files = set()
 
     # check cluster file, we need the name there to exist and match the filename
-    cluster_data_raw = run_jsonnet(['jsonnet', os.path.join('clusters', cluster+'.jsonnet'), '-J', '.'])
+    cluster_data_raw = run_cmd(['jsonnet', os.path.join('clusters', cluster+'.jsonnet'), '-J', '.'])
     cluster_data = json.loads(cluster_data_raw)
     if cluster_data['Name'] != cluster:
         raise Exception('cluster Name should match the filename')
