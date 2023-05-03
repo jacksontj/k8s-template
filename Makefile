@@ -7,6 +7,7 @@ compile:
 
 test:
 	python3 test.py
+	kubeconform --summary releases/*/release/*/
 
 fmt:
 	find . -name '*.jsonnet' | xargs jsonnetfmt -i
