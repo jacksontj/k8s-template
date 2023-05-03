@@ -30,14 +30,17 @@ args = parser.parse_args()
 
 # TODO: better?
 # this inlines a method into jsonnet which will shell out to `helm template` with the same tla code file data??
-def helm(namespace, chart, version, values):
-    values = json.loads(values)
-    
-    app_values = ','.join([ str(k)+'='+json.dumps(v) for k, v in values.items() ])
-    cmd = ["helm", "template", '--skip-tests', chart, "--set-json='"+app_values+"'", '--version='+version]
+def helm_template(namespace, chart, version, values=None):
+    cmd = ["helm", "template", '--skip-tests', chart, '--version='+version]
+
+    # If values were passed in, we need to pass them down ourselves
+    if values:
+        values = json.loads(values)
+        app_values = ','.join([ str(k)+'='+json.dumps(v) for k, v in values.items() ])
+        cmd.append("--set-json='"+app_values+"'")
+
     # TODO: figure out some weird escaping...
-    cmd = shlex.split(' '.join(cmd))
-    stdout = run_cmd(cmd)
+    stdout = run_cmd(shlex.split(' '.join(cmd)))
 
     out_objs = []
     objs = yaml.safe_load_all(stdout)
@@ -53,11 +56,10 @@ def helm(namespace, chart, version, values):
             o['metadata']['namespace'] = namespace
         out_objs.append(o)
     
-    
     return out_objs
 
 native_callbacks = {
-    'helm': (('namespace', 'chart', 'version', 'values'), helm),
+    'helm.template': (('namespace', 'chart', 'version', 'values'), helm_template),
 }
 
 tla_codes = {}
@@ -68,7 +70,6 @@ if args.tla_code_file:
 ret = _jsonnet.evaluate_file(
     args.filename,
     jpathdir=args.jpath,
-    
     tla_codes=tla_codes,
     native_callbacks=native_callbacks,
 )
