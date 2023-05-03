@@ -30,13 +30,11 @@ args = parser.parse_args()
 
 # TODO: better?
 # this inlines a method into jsonnet which will shell out to `helm template` with the same tla code file data??
-def helm(chart, values):
+def helm(namespace, chart, version, values):
     values = json.loads(values)
     
     app_values = ','.join([ str(k)+'='+json.dumps(v) for k, v in values.items() ])
-    cmd = ["helm", "template", '--skip-tests', chart, "--set-json='"+app_values+"'" ]
-    if 'version' in values:
-        cmd.append('--version='+values['version'])
+    cmd = ["helm", "template", '--skip-tests', chart, "--set-json='"+app_values+"'", '--version='+version]
     # TODO: figure out some weird escaping...
     cmd = shlex.split(' '.join(cmd))
     stdout = run_cmd(cmd)
@@ -51,16 +49,15 @@ def helm(chart, values):
         # TODO: better?
         # upstream `helm template` doesn't honor the `--namespace` flag (https://github.com/helm/helm/issues/3553)
         # and as such most helm charts don't handle it either. so for now we are cheating by adding this in here
-        if 'namespace' in values:
-            if 'metadata' in o and 'namespace' not in o['metadata']:
-                o['metadata']['namespace'] = values['namespace']
+        if 'metadata' in o and 'namespace' not in o['metadata']:
+            o['metadata']['namespace'] = namespace
         out_objs.append(o)
     
     
     return out_objs
 
 native_callbacks = {
-    'helm': (('chart', 'values'), helm),
+    'helm': (('namespace', 'chart', 'version', 'values'), helm),
 }
 
 tla_codes = {}
