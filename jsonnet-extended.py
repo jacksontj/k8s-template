@@ -34,7 +34,7 @@ def helm(chart, values):
     values = json.loads(values)
     
     app_values = ','.join([ str(k)+'='+json.dumps(v) for k, v in values.items() ])
-    cmd = ["helm", "template", chart, "--set-json='"+app_values+"'" ]
+    cmd = ["helm", "template", '--skip-tests', chart, "--set-json='"+app_values+"'" ]
     # TODO: figure out some weird escaping...
     cmd = shlex.split(' '.join(cmd))
     stdout = run_cmd(cmd)
