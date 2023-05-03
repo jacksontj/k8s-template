@@ -18,3 +18,10 @@ This repository is aspiring to be a template for enterprise managment of k8s res
 - All templating is done *prior* to the releases/ directory
 	-- NOTE: this is a specific design choice to have the releases/ directory be exactly what is applied on a cluster
 - This repository isn't opinionated about *how* the releases/ directory is applied (flux, argo, etc.)
+
+## requirements
+- jsonnet
+- python-jsonnet
+- python-yaml
+- [kubeconform](https://github.com/yannh/kubeconform)
+- [helm](https://helm.sh/docs/helm/helm_install/)
