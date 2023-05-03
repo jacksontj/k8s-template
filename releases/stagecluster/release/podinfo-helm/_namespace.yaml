@@ -99,6 +99,7 @@
       "template": {
          "metadata": {
             "annotations": {
+               "environment": "stage",
                "prometheus.io/port": "9898",
                "prometheus.io/scrape": "true"
             },
