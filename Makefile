@@ -16,7 +16,3 @@ fmt:
 fmt-test:
 	find . -name '*.jsonnet' | xargs jsonnetfmt --test
 	find . -name '*.libsonnet' | xargs jsonnetfmt --test
-
-.PHONY: upload
-upload:
-	gsutil -m rsync -d -r ./releases/ gs://k8s-release-channels/
