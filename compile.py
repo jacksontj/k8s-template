@@ -26,7 +26,7 @@ def compile_cluster_namespace(cluster, cluster_output, namespace):
     # TODO: find namespace file better
     fpath = os.path.join('./apps', namespace, '_namespace.jsonnet')
     if not os.path.exists(fpath):
-        raise Exception('File %s not found!' % fpath)
+        raise Exception('Namespace file %s not found for cluster %s' % (fpath, cluster))
     cmd = ["./jsonnet-extended.py", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+cluster_output]
     stdout = run_jsonnet(cmd)
     # if there was no output, we'll skip this (as its not wanted in this cluster)
