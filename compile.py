@@ -7,12 +7,8 @@ from subprocess import Popen, PIPE
 import glob
 import json
 import yaml
-
 import concurrent.futures
-# TODO: add options for ProcessPoolExecutor() and/or setting workers
-executor = concurrent.futures.ThreadPoolExecutor()
 
-clusters = [x.split('./clusters/')[1].rsplit('.jsonnet')[0] for x in glob.glob("./clusters/*.jsonnet")]
 
 def run_cmd(cmd):
     p = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE)
@@ -86,10 +82,20 @@ def compile_cluster(cluster):
             'kind': 'Kustomization',
             'resources': [os.path.relpath(f, os.path.dirname(kustomize_path)) for f in sorted(files)]}))
 
-# TODO: parallelize
-cluster_futures = []
-for cluster in clusters:
-    cluster_futures.append(executor.submit(compile_cluster, cluster))
 
-for future in concurrent.futures.as_completed(cluster_futures):
-    future.result()
+if __name__ == '__main__':
+    # TODO: add options for ProcessPoolExecutor() and/or setting workers
+    # create threadpool for work to be done on
+    executor = concurrent.futures.ThreadPoolExecutor()
+
+    # discover all of the clusters we need to build
+    clusters = [x.split('./clusters/')[1].rsplit('.jsonnet')[0] for x in glob.glob("./clusters/*.jsonnet")]
+
+    # kick off builds
+    cluster_futures = []
+    for cluster in clusters:
+        cluster_futures.append(executor.submit(compile_cluster, cluster))
+
+    # wait for builds to complete
+    for future in concurrent.futures.as_completed(cluster_futures):
+        future.result()
