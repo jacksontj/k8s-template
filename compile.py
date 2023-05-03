@@ -8,6 +8,9 @@ import glob
 import json
 import yaml
 
+import concurrent.futures
+# TODO: add options for ProcessPoolExecutor() and/or setting workers
+executor = concurrent.futures.ThreadPoolExecutor()
 
 clusters = [x.split('./clusters/')[1].rsplit('.jsonnet')[0] for x in glob.glob("./clusters/*.jsonnet")]
 
@@ -17,6 +20,27 @@ def run_jsonnet(cmd):
     if p.returncode != 0:
         raise Exception("jsonnet error: %s" % stderr)
     return stdout
+
+# build a specific namespace and return the filepath written
+def compile_cluster_namespace(cluster, cluster_output, namespace):
+    # TODO: find namespace file better
+    fpath = os.path.join('./apps', namespace, '_namespace.jsonnet')
+    if not os.path.exists(fpath):
+        raise Exception('File %s not found!' % fpath)
+    cmd = ["./jsonnet-extended.py", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+cluster_output]
+    stdout = run_jsonnet(cmd)
+    # if there was no output, we'll skip this (as its not wanted in this cluster)
+    if not stdout.strip():
+        raise Exception('Namespace %s returned nothing!' % namespace)
+
+    output = fpath.replace("./apps", "./releases/"+cluster+"/release").replace(".jsonnet",".yaml")
+    # ensure the output dir exists
+    output_dir = os.path.dirname(output)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    with open(output, 'wb') as fh:
+        fh.write(stdout)
+        return output
 
 def compile_cluster(cluster):
     print ('compiling cluster', cluster)
@@ -35,26 +59,12 @@ def compile_cluster(cluster):
     with open(cluster_output, 'wb') as fh:
         fh.write(cluster_data_raw)
 
+    futures = []
     for namespace in cluster_data.get('Namespaces', []):
-        # TODO: find namespace file better
-        fpath = os.path.join('./apps', namespace, '_namespace.jsonnet')
-        if not os.path.exists(fpath):
-            continue
-        #cmd = ["jsonnet", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+cluster_output]
-        cmd = ["./jsonnet-extended.py", fpath, "-J", ".", "-y", '--tla-code-file', 'ctx='+cluster_output]
-        stdout = run_jsonnet(cmd)
-        # if there was no output, we'll skip this (as its not wanted in this cluster)
-        if not stdout.strip():
-            continue
+        futures.append(executor.submit(compile_cluster_namespace, cluster, cluster_output, namespace))
 
-        output = fpath.replace("./apps", "./releases/"+cluster+"/release").replace(".jsonnet",".yaml")
-        # ensure the output dir exists
-        output_dir = os.path.dirname(output)
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        with open(output, 'wb') as fh:
-            fh.write(stdout)
-            files.add(output)
+    for future in concurrent.futures.as_completed(futures):
+        files.add(future.result())
 
     # spin over all release files and remove ones that are no longer generated
     for (dirpath, dirnames, filenames) in walk("./releases/"+cluster+"/release"):
@@ -76,5 +86,9 @@ def compile_cluster(cluster):
             'resources': [os.path.relpath(f, os.path.dirname(kustomize_path)) for f in sorted(files)]}))
 
 # TODO: parallelize
+cluster_futures = []
 for cluster in clusters:
-    compile_cluster(cluster)
+    cluster_futures.append(executor.submit(compile_cluster, cluster))
+
+for future in concurrent.futures.as_completed(cluster_futures):
+    future.result()
