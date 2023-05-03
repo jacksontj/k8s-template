@@ -39,6 +39,7 @@ def compile_cluster_namespace(cluster, cluster_output, namespace):
         fh.write(stdout)
         return output
 
+
 def compile_cluster(cluster):
     print ('compiling cluster', cluster)
     files = set()
@@ -72,7 +73,6 @@ def compile_cluster(cluster):
         # if we emptied a directory, remove it
         if not os.listdir(dirpath):
             os.rmdir(dirpath)
-
 
     # Create kustomization yaml
     kustomize_path = "./releases/"+cluster+"/release/kustomization.yaml"
