@@ -37,12 +37,43 @@ def compile_cluster_namespace(cluster, cluster_output, namespace):
         os.makedirs(output_dir)
     with open(output, 'wb') as fh:
         fh.write(stdout)
-        return output
+
+    # TODO: better
+    # argo example
+    argo_out = "./releases/"+cluster+"/argocd/%s.yaml" % namespace
+    if not os.path.exists(os.path.dirname(argo_out)):
+        os.makedirs(os.path.dirname(argo_out))
+    with open(argo_out, 'w') as fh:
+        fh.write(yaml.dump({
+          "apiVersion": "argoproj.io/v1alpha1",
+          "kind": "Application",
+          "metadata": {
+            "name": namespace,
+            "namespace": "argocd",
+            "finalizers": [
+              "resources-finalizer.argocd.argoproj.io"
+            ]
+          },
+          "spec": {
+            "destination": {
+              "namespace": "argocd",
+              "server": "https://kubernetes.default.svc"
+            },
+            "project": "default",
+            "source": {
+              "path": "releases/devcluster/release/"+namespace,
+              "repoURL": 'https://github.com/thomasjackson-clari/k8s.git',
+              "targetRevision": "HEAD"
+            }
+          }
+        }))
+    return (output, argo_out)
 
 
 def compile_cluster(cluster):
     print ('compiling cluster', cluster)
     files = set()
+    argo_files = set()
 
     # check cluster file, we need the name there to exist and match the filename
     cluster_data_raw = run_cmd(['jsonnet', os.path.join('clusters', cluster+'.jsonnet'), '-J', '.'])
@@ -62,43 +93,25 @@ def compile_cluster(cluster):
         futures.append(executor.submit(compile_cluster_namespace, cluster, cluster_output, namespace))
 
     for future in concurrent.futures.as_completed(futures):
-        files.add(future.result())
-
-        # TODO: better
-        # argo example
-        argo_out = "./releases/"+cluster+"/argocd/%s.yaml" % namespace
-        if not os.path.exists(os.path.dirname(argo_out)):
-            os.makedirs(os.path.dirname(argo_out))
-        with open(argo_out, 'w') as fh:
-            fh.write(yaml.dump({
-              "apiVersion": "argoproj.io/v1alpha1",
-              "kind": "Application",
-              "metadata": {
-                "name": namespace,
-                "namespace": "argocd",
-                "finalizers": [
-                  "resources-finalizer.argocd.argoproj.io"
-                ]
-              },
-              "spec": {
-                "destination": {
-                  "namespace": "argocd",
-                  "server": "https://kubernetes.default.svc"
-                },
-                "project": "default",
-                "source": {
-                  "path": "releases/devcluster/release/"+namespace,
-                  "repoURL": 'https://github.com/thomasjackson-clari/k8s.git',
-                  "targetRevision": "HEAD"
-                }
-              }
-            }))
+        output, argo_out = future.result()
+        files.add(output)
+        argo_files.add(argo_out)
 
     # spin over all release files and remove ones that are no longer generated
     for (dirpath, dirnames, filenames) in walk("./releases/"+cluster+"/release"):
         for filename in filenames:
             fpath = os.path.join(dirpath, filename)
             if fpath not in files:
+                os.remove(fpath)
+        # if we emptied a directory, remove it
+        if not os.listdir(dirpath):
+            os.rmdir(dirpath)
+
+    # spin over all argo files and remove ones that are no longer generated
+    for (dirpath, dirnames, filenames) in walk("./releases/"+cluster+"/argocd"):
+        for filename in filenames:
+            fpath = os.path.join(dirpath, filename)
+            if fpath not in argo_files:
                 os.remove(fpath)
         # if we emptied a directory, remove it
         if not os.listdir(dirpath):
