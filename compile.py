@@ -64,6 +64,36 @@ def compile_cluster(cluster):
     for future in concurrent.futures.as_completed(futures):
         files.add(future.result())
 
+        # TODO: better
+        # argo example
+        argo_out = "./releases/"+cluster+"/argocd/%s.yaml" % namespace
+        if not os.path.exists(os.path.dirname(argo_out)):
+            os.makedirs(os.path.dirname(argo_out))
+        with open(argo_out, 'w') as fh:
+            fh.write(yaml.dump({
+              "apiVersion": "argoproj.io/v1alpha1",
+              "kind": "Application",
+              "metadata": {
+                "name": namespace,
+                "namespace": "argocd",
+                "finalizers": [
+                  "resources-finalizer.argocd.argoproj.io"
+                ]
+              },
+              "spec": {
+                "destination": {
+                  "namespace": "argocd",
+                  "server": "https://kubernetes.default.svc"
+                },
+                "project": "default",
+                "source": {
+                  "path": "releases/devcluster/release/"+namespace,
+                  "repoURL": 'https://github.com/thomasjackson-clari/k8s.git',
+                  "targetRevision": "HEAD"
+                }
+              }
+            }))
+
     # spin over all release files and remove ones that are no longer generated
     for (dirpath, dirnames, filenames) in walk("./releases/"+cluster+"/release"):
         for filename in filenames:
