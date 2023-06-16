@@ -21,8 +21,8 @@ parser = argparse.ArgumentParser(
     prog='jsonnet-extend',
     description='extend jsonnet with helm')
 
-parser.add_argument('filename')           
-parser.add_argument('-J', '--jpath')      
+parser.add_argument('filename')
+parser.add_argument('-J', '--jpath')
 parser.add_argument('-y', '--yaml-stream', action='store_true')
 parser.add_argument('--tla-code-file')
 args = parser.parse_args()
@@ -45,6 +45,9 @@ def helm_template(namespace, chart, version, values=None):
     out_objs = []
     objs = yaml.safe_load_all(stdout)
     for o in objs:
+        if not o:
+            continue
+
         # TODO: remove -- this is a hack around some weird helm-ness
         # right now if the chart is remote then helm prints out a pulled/digest block -- which is valid yaml but not valid manifests
         if sorted(o.keys()) == ['Digest', 'Pulled', ]:
@@ -55,7 +58,7 @@ def helm_template(namespace, chart, version, values=None):
         if 'metadata' in o and 'namespace' not in o['metadata']:
             o['metadata']['namespace'] = namespace
         out_objs.append(o)
-    
+
     return out_objs
 
 native_callbacks = {
