@@ -55,7 +55,7 @@ def helm_template(namespace, chart, version, values=None):
         # TODO: better?
         # upstream `helm template` doesn't honor the `--namespace` flag (https://github.com/helm/helm/issues/3553)
         # and as such most helm charts don't handle it either. so for now we are cheating by adding this in here
-        if 'metadata' in o and 'namespace' not in o['metadata']:
+        if 'metadata' in o:
             o['metadata']['namespace'] = namespace
         out_objs.append(o)
 
