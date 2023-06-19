@@ -31,7 +31,7 @@ args = parser.parse_args()
 # TODO: better?
 # this inlines a method into jsonnet which will shell out to `helm template` with the same tla code file data??
 def helm_template(namespace, chart, version, values=None):
-    cmd = ["helm", "template", '--skip-tests', chart, '--version='+version]
+    cmd = ["helm", "template", '--skip-tests', chart, '--version='+version, '--namespace='+namespace]
 
     # If values were passed in, we need to pass them down ourselves
     if values:
@@ -53,7 +53,7 @@ def helm_template(namespace, chart, version, values=None):
         if sorted(o.keys()) == ['Digest', 'Pulled', ]:
             continue
         # TODO: better?
-        # upstream `helm template` doesn't honor the `--namespace` flag (https://github.com/helm/helm/issues/3553)
+        # *SOME* upstream `helm template` doesn't honor the `--namespace` flag (https://github.com/helm/helm/issues/3553)
         # and as such most helm charts don't handle it either. so for now we are cheating by adding this in here
         if 'metadata' in o:
             o['metadata']['namespace'] = namespace
