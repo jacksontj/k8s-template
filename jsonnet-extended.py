@@ -30,8 +30,13 @@ args = parser.parse_args()
 
 # TODO: better?
 # this inlines a method into jsonnet which will shell out to `helm template` with the same tla code file data??
-def helm_template(namespace, chart, version, values=None):
-    cmd = ["helm", "template", '--skip-tests', chart, '--version='+version, '--namespace='+namespace]
+def helm_template(namespace, chart, version, values=None, releasename=''):
+    cmd = ["helm", "template", '--skip-tests']
+
+    if releasename != '':
+        cmd.append(releasename)
+
+    cmd += [chart, '--version='+version, '--namespace='+namespace]
 
     # If values were passed in, we need to pass them down ourselves
     if values:
@@ -62,7 +67,7 @@ def helm_template(namespace, chart, version, values=None):
     return out_objs
 
 native_callbacks = {
-    'helm.template': (('namespace', 'chart', 'version', 'values'), helm_template),
+    'helm.template': (('namespace', 'chart', 'version', 'values', 'releasename'), helm_template),
 }
 
 tla_codes = {}
