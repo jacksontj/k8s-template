@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: podinfo-helm
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: releases/devcluster/release/podinfo-helm
+    repoURL: https://github.com/thomasjackson-clari/k8s.git
+    targetRevision: HEAD
