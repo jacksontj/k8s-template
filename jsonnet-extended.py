@@ -5,6 +5,7 @@ import argparse
 import shlex
 from subprocess import Popen, PIPE
 
+import jsonschema
 import json
 import _jsonnet
 import yaml
@@ -66,8 +67,18 @@ def helm_template(namespace, chart, version, values=None, releasename=''):
 
     return out_objs
 
+def jsonschema_validate(obj, schema_obj):
+    obj = json.loads(obj)
+    schema_obj = json.loads(schema_obj)
+    try:
+        jsonschema.validate(obj, schema_obj, format_checker=jsonschema.FormatChecker())
+        return {'valid': True, 'reason': ''}
+    except jsonschema.ValidationError as e:
+        return {'valid': False, 'reason': str(e)}
+
 native_callbacks = {
     'helm.template': (('namespace', 'chart', 'version', 'values', 'releasename'), helm_template),
+    'jsonschema.validate': (('obj', 'schema_obj'), jsonschema_validate),
 }
 
 tla_codes = {}
