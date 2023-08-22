@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import argparse
@@ -6,7 +6,7 @@ import shlex
 from subprocess import Popen, PIPE
 
 import json
-import _jsonnet
+import _gojsonnet
 import yaml
 
 
@@ -75,7 +75,7 @@ if args.tla_code_file:
     k, v = args.tla_code_file.split('=', 1)
     tla_codes = {k: open(v).read()}
 
-ret = _jsonnet.evaluate_file(
+ret = _gojsonnet.evaluate_file(
     args.filename,
     jpathdir=args.jpath,
     tla_codes=tla_codes,
