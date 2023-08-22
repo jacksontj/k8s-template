@@ -3,6 +3,8 @@
    "Name": "stagecluster",
    "Namespaces": [
       "podinfo",
-      "podinfo-helm"
+      "podinfo-helm",
+      "example",
+      "examplechange"
    ]
 }

@@ -3,6 +3,8 @@
    "Name": "devcluster",
    "Namespaces": [
       "podinfo",
-      "podinfo-helm"
+      "podinfo-helm",
+      "example",
+      "examplechange"
    ]
 }

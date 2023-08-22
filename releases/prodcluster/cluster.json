@@ -3,6 +3,8 @@
    "Name": "prodcluster",
    "Namespaces": [
       "podinfo",
-      "podinfo-helm"
+      "podinfo-helm",
+      "example",
+      "examplechange"
    ]
 }
