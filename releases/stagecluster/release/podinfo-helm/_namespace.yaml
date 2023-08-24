@@ -43,6 +43,7 @@
          "app.kubernetes.io/managed-by": "Helm",
          "app.kubernetes.io/name": "release-name-podinfo",
          "app.kubernetes.io/version": "6.3.5",
+         "foo": "bar",
          "helm.sh/chart": "podinfo-6.3.5"
       },
       "name": "release-name-podinfo",
@@ -78,6 +79,7 @@
          "app.kubernetes.io/managed-by": "Helm",
          "app.kubernetes.io/name": "release-name-podinfo",
          "app.kubernetes.io/version": "6.3.5",
+         "foo": "bar",
          "helm.sh/chart": "podinfo-6.3.5"
       },
       "name": "release-name-podinfo",
