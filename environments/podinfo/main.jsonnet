@@ -10,6 +10,7 @@ local data = function(cluster) {
                          'helm-charts/podinfo',
                          {
                            namespace: 'podinfo',
+                           skipTests: true,
                            values: {
                              logLevel: 'debug',
                            },
