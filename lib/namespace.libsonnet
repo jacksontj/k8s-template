@@ -1,11 +1,9 @@
-local serviceRegistry = import 'imported/service_registry.json';
+local serviceCatalog = import 'imported/service_catalog.json';
 
-function(name, labels={}, enablePathProtector=false) [
-
-  assert name in serviceRegistry : 'namespace must be in service registry';
-  local registryLabels = {
-    owners: std.join(',', serviceRegistry[name].owners),
-  };
+function(name, labels={}, serviceName=null) [
+  local key = if serviceName != null then serviceName else name;
+  assert key in serviceCatalog : 'key %s must be in catalog' % key;
+  local catalogEntry = std.get(serviceCatalog, key, {});
 
   {
     kind: 'Namespace',
@@ -14,34 +12,39 @@ function(name, labels={}, enablePathProtector=false) [
       name: name,
       labels: {
         name: name,
-        [if enablePathProtector then 'path-protector']: 'enabled',
-      } + labels + registryLabels,
+      } + labels + {
+        owners: std.join(',', serviceCatalog[name].owners),
+        // TODO: also define oncall
+      },
     },
   },
 
-  // We want to give everyone in kube-users (for now) admin access in all but the kube-system namespaces
-  {
-    apiVersion: 'rbac.authorization.k8s.io/v1',
-    kind: 'RoleBinding',
-    metadata: {
-      labels: {
-        'addonmanager.kubernetes.io/mode': 'EnsureExists',
-        'kubernetes.io/cluster-service': 'true',
+  // TODO: handle bindings for users
+  /*
+    // We want to give everyone in kube-users (for now) admin access in all but the kube-system namespaces
+    {
+      apiVersion: 'rbac.authorization.k8s.io/v1',
+      kind: 'RoleBinding',
+      metadata: {
+        labels: {
+          'addonmanager.kubernetes.io/mode': 'EnsureExists',
+          'kubernetes.io/cluster-service': 'true',
+        },
+        name: 'k8s-users',
+        namespace: name,
       },
-      name: 'k8s-users',
-      namespace: name,
-    },
-    roleRef: {
-      apiGroup: 'rbac.authorization.k8s.io',
-      kind: 'ClusterRole',
-      name: if name == 'kube-system' then 'view' else 'admin',
-    },
-    subjects: [
-      {
+      roleRef: {
         apiGroup: 'rbac.authorization.k8s.io',
-        kind: 'Group',
-        name: 'automatedoperations:k8s-users',
+        kind: 'ClusterRole',
+        name: if name == 'kube-system' then 'view' else 'admin',
       },
-    ],
-  },
+      subjects: [
+        {
+          apiGroup: 'rbac.authorization.k8s.io',
+          kind: 'Group',
+          name: 'ORGNAME:k8s-users',
+        },
+      ],
+    },
+    */
 ]

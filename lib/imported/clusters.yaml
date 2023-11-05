@@ -1,0 +1,13 @@
+devcluster:
+  key: devcluster
+  name: devcluster
+  region: us-east-1
+stagecluster:
+  key: stagecluster
+  name: stagecluster
+  region: us-east-1
+prodcluster:
+  key: prodcluster
+  name: prodcluster
+  region: us-east-1
+
