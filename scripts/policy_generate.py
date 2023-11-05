@@ -13,11 +13,6 @@ import os.path
 import glob
 import yaml
 
-def combine_policies(policies, op):
-    return {
-        op: policies,
-    }
-
 def if_clause_for_filepaths(filepaths):
     return {
         'changed_files': {
