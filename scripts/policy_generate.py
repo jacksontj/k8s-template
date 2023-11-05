@@ -60,17 +60,16 @@ def get_rule(name, if_clause=None, approvers=None, options=None, methods=None):
 
 
 if __name__ == '__main__':
-    # TODO: this actually needs to be "unique owner group" -> app
     # map of namespace (release filepath) -> ownership {users:[], groups: []}
     # map of ownerkey -> {approvers: {users: []}, filepaths: []}
     OwnerEntry = collections.namedtuple('OwnerEntry', ['approvers', 'filepaths'])
     ownership_dict = {}
 
+    # Spin over "release directory" to determine who owns what files
     release_outputs = glob.glob("releases/*/release/*/_namespace.yaml")
     for output in release_outputs:
         key, approvers = get_owners_of_namespace(output)
         if key not in ownership_dict:
-            # TODO: class?
             ownership_dict[key] = OwnerEntry(approvers, [])
         ownership_dict[key].filepaths.append(output)
 
@@ -88,22 +87,18 @@ if __name__ == '__main__':
         # regular entry
         name = "owner_regular-"+key
         namespace_policies['owner_regular'].append(name)
-        approval_rules.append(get_rule(
-                                        name,
-                                        if_clause=if_clause_for_filepaths(owner_entry.filepaths),
-                                        approvers=owner_entry.approvers,
-                                        ))
+        approval_rules.append(get_rule(name,
+                                    if_clause=if_clause_for_filepaths(owner_entry.filepaths),
+                                    approvers=owner_entry.approvers))
 
         # override entry
         name = "owner_override-"+key
         namespace_policies['owner_override'].append(name)
-        approval_rules.append(get_rule(
-                                        name,
-                                        if_clause=if_clause_for_filepaths(owner_entry.filepaths),
-                                        options={'allow_author': True},
-                                        methods={'comments': ['FORCE_COMMIT']},
-                                        approvers=owner_entry.approvers,
-                                        ))
+        approval_rules.append(get_rule(name,
+                                    if_clause=if_clause_for_filepaths(owner_entry.filepaths),
+                                    options={'allow_author': True},
+                                    methods={'comments': ['FORCE_COMMIT']},
+                                    approvers=owner_entry.approvers))
 
     # combine into POLICY_BASE
     POLICY_BASE = {
@@ -116,6 +111,7 @@ if __name__ == '__main__':
                 ]},
             ],
         },
+        # TODO: move to separate config, base, or inline-yaml?
         'approval_rules': approval_rules + [
             {
                 'name': 'admin_override',
