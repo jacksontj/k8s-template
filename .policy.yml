@@ -2,18 +2,18 @@ approval_rules:
 - if:
     changed_files:
       paths: &id001
-      - releases/prodcluster/release/example/_namespace.yaml
-      - releases/prodcluster/release/podinfo-helm/_namespace.yaml
-      - releases/prodcluster/release/podinfo/_namespace.yaml
-      - releases/prodcluster/release/examplechange/_namespace.yaml
-      - releases/devcluster/release/example/_namespace.yaml
-      - releases/devcluster/release/podinfo-helm/_namespace.yaml
-      - releases/devcluster/release/podinfo/_namespace.yaml
       - releases/devcluster/release/examplechange/_namespace.yaml
-      - releases/stagecluster/release/example/_namespace.yaml
-      - releases/stagecluster/release/podinfo-helm/_namespace.yaml
-      - releases/stagecluster/release/podinfo/_namespace.yaml
+      - releases/devcluster/release/example/_namespace.yaml
+      - releases/devcluster/release/podinfo/_namespace.yaml
+      - releases/devcluster/release/podinfo-helm/_namespace.yaml
       - releases/stagecluster/release/examplechange/_namespace.yaml
+      - releases/stagecluster/release/example/_namespace.yaml
+      - releases/stagecluster/release/podinfo/_namespace.yaml
+      - releases/stagecluster/release/podinfo-helm/_namespace.yaml
+      - releases/prodcluster/release/examplechange/_namespace.yaml
+      - releases/prodcluster/release/example/_namespace.yaml
+      - releases/prodcluster/release/podinfo/_namespace.yaml
+      - releases/prodcluster/release/podinfo-helm/_namespace.yaml
   name: owner_regular-jacksontj
   options:
     allow_author: false
