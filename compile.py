@@ -30,15 +30,22 @@ def compile_cluster_namespace(cluster, cluster_output, namespace):
     if not stdout.strip():
         raise Exception('Namespace %s returned nothing!' % namespace)
 
-    output = fpath.replace("./apps", "./releases/"+cluster+"/release").replace(".jsonnet",".yaml")
+    output_dir = os.path.join('./releases', cluster, 'release', namespace)
     # ensure the output dir exists
-    output_dir = os.path.dirname(output)
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    with open(output, 'wb') as fh:
-        fh.write(stdout)
-        return output
 
+    # each object gets its own file
+    # clustername/namespace/kind.name
+    files = set([])
+    for obj in yaml.safe_load_all(stdout):
+        name = obj['kind']+'-'+obj['metadata']['name']+'.yaml'
+        output = os.path.join(output_dir, name)
+        files.add(output)
+        with open(output, 'w') as fh:
+            yaml.dump(obj, fh, default_flow_style=False)
+
+    return files
 
 def compile_cluster(cluster):
     print ('compiling cluster', cluster)
@@ -62,12 +69,15 @@ def compile_cluster(cluster):
         futures.append(executor.submit(compile_cluster_namespace, cluster, cluster_output, namespace))
 
     for future in concurrent.futures.as_completed(futures):
-        files.add(future.result())
+        files.update(future.result())
+
+    print ('files', files)
 
     # spin over all release files and remove ones that are no longer generated
     for (dirpath, dirnames, filenames) in walk("./releases/"+cluster+"/release"):
         for filename in filenames:
             fpath = os.path.join(dirpath, filename)
+            print ('check', fpath, fpath in files)
             if fpath not in files:
                 os.remove(fpath)
         # if we emptied a directory, remove it
