@@ -16,3 +16,6 @@ fmt:
 fmt-test:
 	find . -name '*.jsonnet' | xargs jsonnetfmt --test
 	find . -name '*.libsonnet' | xargs jsonnetfmt --test
+
+policy:
+	python3 scripts/policy_generate.py | tee .policy.yml
