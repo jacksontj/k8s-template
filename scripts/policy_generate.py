@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''policy_generate.py generates a .policy.yml (policy-bot config) for the repository.
 
 At a high-level the policy is as follows:
@@ -66,14 +68,14 @@ if __name__ == '__main__':
     ownership_dict = {}
 
     # Spin over "release directory" to determine who owns what files
-    release_outputs = glob.glob("releases/*/release/*/_namespace.yaml")
-    for output in release_outputs:
-        output_parts = output.split('/')
-        key = output_parts[1]+'/'+output_parts[3]
-        approvers = approvers_for_namespace(output)
+    namespace_files = glob.glob("releases/*/*/Namespace*.yaml")
+    for namespace_file in namespace_files:
+        output_parts = namespace_file.split('/')
+        key = output_parts[1]+'/'+output_parts[2]
+        approvers = approvers_for_namespace(namespace_file)
         if key not in ownership_dict:
             ownership_dict[key] = OwnerEntry(approvers, [])
-        ownership_dict[key].filepaths.append(output)
+        ownership_dict[key].filepaths.append(namespace_file)
 
     # all of the per-namespace policies
     namespace_policies = {
