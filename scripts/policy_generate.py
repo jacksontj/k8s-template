@@ -76,7 +76,7 @@ if __name__ == '__main__':
         approvers = approvers_for_namespace(namespace_file)
         if key not in ownership_dict:
             ownership_dict[key] = OwnerEntry(approvers, [])
-        ownership_dict[key].filepaths.append(os.path.dirname(namespace_file))
+        ownership_dict[key].filepaths.append('^'+os.path.dirname(namespace_file)+'.*$')
 
     # all of the per-namespace policies
     namespace_policies = {
