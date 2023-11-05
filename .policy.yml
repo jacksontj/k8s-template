@@ -1,0 +1,9 @@
+policy:
+  approval:
+    - basereview
+
+approval_rules:
+  - name: basereview
+    requires:
+      count: 1
+      users: ["jacksontj"]
