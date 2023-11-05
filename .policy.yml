@@ -3,15 +3,12 @@ approval_rules:
     changed_files:
       paths: &id001
       - releases/devcluster/release/examplechange/_namespace.yaml
-      - releases/devcluster/release/example/_namespace.yaml
       - releases/devcluster/release/podinfo/_namespace.yaml
       - releases/devcluster/release/podinfo-helm/_namespace.yaml
       - releases/stagecluster/release/examplechange/_namespace.yaml
-      - releases/stagecluster/release/example/_namespace.yaml
       - releases/stagecluster/release/podinfo/_namespace.yaml
       - releases/stagecluster/release/podinfo-helm/_namespace.yaml
       - releases/prodcluster/release/examplechange/_namespace.yaml
-      - releases/prodcluster/release/example/_namespace.yaml
       - releases/prodcluster/release/podinfo/_namespace.yaml
       - releases/prodcluster/release/podinfo-helm/_namespace.yaml
   name: owner_regular-jacksontj
@@ -39,6 +36,36 @@ approval_rules:
     users: *id002
 - if:
     changed_files:
+      paths: &id003
+      - releases/devcluster/release/example/_namespace.yaml
+      - releases/stagecluster/release/example/_namespace.yaml
+      - releases/prodcluster/release/example/_namespace.yaml
+  name: owner_regular-jacksontj,otheruser
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id004
+    - jacksontj
+    - otheruser
+- if:
+    changed_files:
+      paths: *id003
+  name: owner_override-jacksontj,otheruser
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id004
+- if:
+    changed_files:
       paths:
       - ^.*$
   name: admin_override
@@ -57,7 +84,9 @@ policy:
   - or:
     - and:
       - owner_regular-jacksontj
+      - owner_regular-jacksontj,otheruser
     - and:
       - owner_override-jacksontj
+      - owner_override-jacksontj,otheruser
     - admin_override
 
