@@ -1,0 +1,110 @@
+[
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "example/devcluster",
+      "namespace": "environments/example/main.jsonnet",
+      "labels": {
+        "cluster": "devcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "example",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "example/prodcluster",
+      "namespace": "environments/example/main.jsonnet",
+      "labels": {
+        "cluster": "prodcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "example",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "example/stagecluster",
+      "namespace": "environments/example/main.jsonnet",
+      "labels": {
+        "cluster": "stagecluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "example",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "podinfo/devcluster",
+      "namespace": "environments/podinfo/main.jsonnet",
+      "labels": {
+        "cluster": "devcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "podinfo",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "podinfo/prodcluster",
+      "namespace": "environments/podinfo/main.jsonnet",
+      "labels": {
+        "cluster": "prodcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "podinfo",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "podinfo/stagecluster",
+      "namespace": "environments/podinfo/main.jsonnet",
+      "labels": {
+        "cluster": "stagecluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "podinfo",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  }
+]
