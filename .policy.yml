@@ -11,8 +11,6 @@ approval_rules:
       - ./releases/stagecluster/release/example/_namespace.yaml
       - ./releases/stagecluster/release/podinfo-helm/_namespace.yaml
       - ./releases/stagecluster/release/examplechange/_namespace.yaml
-  methods:
-    github_review: true
   name: owner_regular-jacksontj
   options: null
   requires:
@@ -22,9 +20,6 @@ approval_rules:
 - if:
     changed_files:
       paths: *id001
-  methods:
-    comments:
-    - FORCE_COMMIT
   name: owner_override-jacksontj
   options: null
   requires:
@@ -36,8 +31,6 @@ approval_rules:
       - ./releases/prodcluster/release/podinfo/_namespace.yaml
       - ./releases/devcluster/release/podinfo/_namespace.yaml
       - ./releases/stagecluster/release/podinfo/_namespace.yaml
-  methods:
-    github_review: true
   name: owner_regular-jacksontj,someoneelse
   options: null
   requires:
@@ -48,9 +41,6 @@ approval_rules:
 - if:
     changed_files:
       paths: *id003
-  methods:
-    comments:
-    - FORCE_COMMIT
   name: owner_override-jacksontj,someoneelse
   options: null
   requires:
