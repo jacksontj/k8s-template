@@ -12,7 +12,7 @@ local data = function(cluster) {
                            namespace: 'podinfo',
                            skipTests: true,
                            values: {
-                             logLevel: 'debug',
+                             logLevel: 'info',
                            },
                          }),
 };
