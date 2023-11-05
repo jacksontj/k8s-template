@@ -2,27 +2,27 @@
 
 import jinja2
 import glob
+
+import os.path
+import json
 import yaml
 
 if __name__ == '__main__':
-    # using the tanka name
-    cluster_namespaces = []
+    with open('lib/imported/environments.json') as fh:
+        environments = json.load(fh)
 
-    namespace_files = sorted(glob.glob("releases/*/*/Namespace*.yaml"))
-    for namespace_file in namespace_files:
+    for env in environments:
+        namespace_file = os.path.join('releases', env['metadata']['labels']['cluster'], env['spec']['namespace'], 'Namespace-'+env['spec']['namespace']+'.yaml')
         with open(namespace_file) as fh:
             cluster_namespace = yaml.safe_load(fh)
-            cluster_namespace['cluster'] = namespace_file.split('/')[1]
             cluster_namespace['owners'] = cluster_namespace['metadata']['labels']['owners'].split(',')
-            cluster_namespaces.append(cluster_namespace)
+            env['namespace'] = cluster_namespace
 
     environment = jinja2.Environment(loader=jinja2.FileSystemLoader("."))
     template = environment.get_template("scripts/policy.yml.tmpl")
 
     content = template.render(
-        cluster_namespaces=cluster_namespaces,
+        environments=environments,
     )
-
-    #print (content)
 
     print (yaml.dump(yaml.safe_load(content)))

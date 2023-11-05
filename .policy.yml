@@ -16,20 +16,6 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/devcluster/podinfo.*$
-  name: owner_regular-devcluster/podinfo
-  options:
-    allow_author: false
-    invalidate_on_push: true
-    methods:
-      github_review: true
-  requires:
-    count: 1
-    users:
-    - jacksontj
-- if:
-    changed_files:
-      paths:
       - ^releases/prodcluster/example.*$
   name: owner_regular-prodcluster/example
   options:
@@ -44,8 +30,8 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/prodcluster/podinfo.*$
-  name: owner_regular-prodcluster/podinfo
+      - ^releases/stagecluster/example.*$
+  name: owner_regular-stagecluster/example
   options:
     allow_author: false
     invalidate_on_push: true
@@ -58,8 +44,22 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/stagecluster/example.*$
-  name: owner_regular-stagecluster/example
+      - ^releases/devcluster/podinfo.*$
+  name: owner_regular-devcluster/podinfo
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/prodcluster/podinfo.*$
+  name: owner_regular-prodcluster/podinfo
   options:
     allow_author: false
     invalidate_on_push: true
@@ -101,21 +101,6 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/devcluster/podinfo.*$
-  name: owner_override-devcluster/podinfo
-  options:
-    allow_author: true
-    invalidate_on_push: true
-    methods:
-      comments:
-      - FORCE_COMMIT
-  requires:
-    count: 1
-    users:
-    - jacksontj
-- if:
-    changed_files:
-      paths:
       - ^releases/prodcluster/example.*$
   name: owner_override-prodcluster/example
   options:
@@ -131,8 +116,8 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/prodcluster/podinfo.*$
-  name: owner_override-prodcluster/podinfo
+      - ^releases/stagecluster/example.*$
+  name: owner_override-stagecluster/example
   options:
     allow_author: true
     invalidate_on_push: true
@@ -146,8 +131,23 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/stagecluster/example.*$
-  name: owner_override-stagecluster/example
+      - ^releases/devcluster/podinfo.*$
+  name: owner_override-devcluster/podinfo
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/prodcluster/podinfo.*$
+  name: owner_override-prodcluster/podinfo
   options:
     allow_author: true
     invalidate_on_push: true
@@ -193,17 +193,17 @@ policy:
   - or:
     - and:
       - owner_regular-devcluster/example
-      - owner_regular-devcluster/podinfo
       - owner_regular-prodcluster/example
-      - owner_regular-prodcluster/podinfo
       - owner_regular-stagecluster/example
+      - owner_regular-devcluster/podinfo
+      - owner_regular-prodcluster/podinfo
       - owner_regular-stagecluster/podinfo
     - and:
       - owner_override-devcluster/example
-      - owner_override-devcluster/podinfo
       - owner_override-prodcluster/example
-      - owner_override-prodcluster/podinfo
       - owner_override-stagecluster/example
+      - owner_override-devcluster/podinfo
+      - owner_override-prodcluster/podinfo
       - owner_override-stagecluster/podinfo
     - admin_override
 

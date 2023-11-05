@@ -1,11 +1,11 @@
 approval_rules:
 {# create the "regular owner" rules #}
-{% for namespace in cluster_namespaces %}
-- name: owner_regular-{{namespace.cluster}}/{{namespace.metadata.name}}
+{% for env in environments %}
+- name: owner_regular-{{env.metadata.labels.cluster}}/{{env.spec.namespace}}
   if:
     changed_files:
       paths:
-      - ^releases/{{namespace.cluster}}/{{namespace.metadata.name}}.*$
+      - ^releases/{{env.metadata.labels.cluster}}/{{env.spec.namespace}}.*$
   options:
     allow_author: false
     invalidate_on_push: true
@@ -14,18 +14,18 @@ approval_rules:
   requires:
     count: 1
     users:
-    {% for user in namespace.owners -%}
+    {% for user in env.namespace.owners -%}
     - {{user}}
     {%- endfor %}
 {% endfor %}
 
 {# create the "override owner" rules #}
-{% for namespace in cluster_namespaces %}
-- name: owner_override-{{namespace.cluster}}/{{namespace.metadata.name}}
+{% for env in environments %}
+- name: owner_override-{{env.metadata.labels.cluster}}/{{env.spec.namespace}}
   if:
     changed_files:
       paths:
-      - ^releases/{{namespace.cluster}}/{{namespace.metadata.name}}.*$
+      - ^releases/{{env.metadata.labels.cluster}}/{{env.spec.namespace}}.*$
   options:
     allow_author: true
     invalidate_on_push: true
@@ -35,7 +35,7 @@ approval_rules:
   requires:
     count: 1
     users:
-    {% for user in namespace.owners -%}
+    {% for user in env.namespace.owners -%}
     - {{user}}
     {%- endfor %}
 {% endfor %}
@@ -61,13 +61,13 @@ policy:
   - or:
     # "regular" owner approvals
     - and:
-      {% for namespace in cluster_namespaces -%}
-      - owner_regular-{{namespace.cluster}}/{{namespace.metadata.name}}
+      {% for env in environments %}
+      - owner_regular-{{env.metadata.labels.cluster}}/{{env.spec.namespace}}
       {% endfor %}
     # "override" owner approvals
     - and:
-      {% for namespace in cluster_namespaces -%}
-      - owner_override-{{namespace.cluster}}/{{namespace.metadata.name}}
+      {% for env in environments %}
+      - owner_override-{{env.metadata.labels.cluster}}/{{env.spec.namespace}}
       {% endfor %}
     - admin_override
 
