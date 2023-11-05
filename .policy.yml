@@ -2,7 +2,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/prodcluster/example/Namespace-example.yaml
+      - releases/prodcluster/example
   name: owner_regular-prodcluster/example
   options:
     allow_author: false
@@ -16,7 +16,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/prodcluster/example/Namespace-example.yaml
+      - releases/prodcluster/example
   name: owner_override-prodcluster/example
   options:
     allow_author: true
@@ -30,7 +30,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/prodcluster/podinfo/Namespace-podinfo.yaml
+      - releases/prodcluster/podinfo
   name: owner_regular-prodcluster/podinfo
   options:
     allow_author: false
@@ -44,7 +44,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/prodcluster/podinfo/Namespace-podinfo.yaml
+      - releases/prodcluster/podinfo
   name: owner_override-prodcluster/podinfo
   options:
     allow_author: true
@@ -58,7 +58,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/devcluster/example/Namespace-example.yaml
+      - releases/devcluster/example
   name: owner_regular-devcluster/example
   options:
     allow_author: false
@@ -72,7 +72,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/devcluster/example/Namespace-example.yaml
+      - releases/devcluster/example
   name: owner_override-devcluster/example
   options:
     allow_author: true
@@ -86,7 +86,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/devcluster/podinfo/Namespace-podinfo.yaml
+      - releases/devcluster/podinfo
   name: owner_regular-devcluster/podinfo
   options:
     allow_author: false
@@ -100,7 +100,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/devcluster/podinfo/Namespace-podinfo.yaml
+      - releases/devcluster/podinfo
   name: owner_override-devcluster/podinfo
   options:
     allow_author: true
@@ -114,7 +114,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/stagecluster/example/Namespace-example.yaml
+      - releases/stagecluster/example
   name: owner_regular-stagecluster/example
   options:
     allow_author: false
@@ -128,7 +128,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/stagecluster/example/Namespace-example.yaml
+      - releases/stagecluster/example
   name: owner_override-stagecluster/example
   options:
     allow_author: true
@@ -142,7 +142,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/stagecluster/podinfo/Namespace-podinfo.yaml
+      - releases/stagecluster/podinfo
   name: owner_regular-stagecluster/podinfo
   options:
     allow_author: false
@@ -156,7 +156,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - releases/stagecluster/podinfo/Namespace-podinfo.yaml
+      - releases/stagecluster/podinfo
   name: owner_override-stagecluster/podinfo
   options:
     allow_author: true
