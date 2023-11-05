@@ -45,3 +45,7 @@ clean:
 clean-all:
 	git clean -dfx
 	git checkout .
+
+.PHONY: policy
+policy:
+	./scripts/policy_generate.py | tee .policy.yml
