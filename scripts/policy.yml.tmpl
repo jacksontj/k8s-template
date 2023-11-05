@@ -1,0 +1,73 @@
+approval_rules:
+{# create the "regular owner" rules #}
+{% for namespace in cluster_namespaces %}
+- name: owner_regular-{{namespace.cluster}}/{{namespace.metadata.name}}
+  if:
+    changed_files:
+      paths:
+      - ^releases/{{namespace.cluster}}/{{namespace.metadata.name}}.*$
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    {% for user in namespace.owners -%}
+    - {{user}}
+    {%- endfor %}
+{% endfor %}
+
+{# create the "override owner" rules #}
+{% for namespace in cluster_namespaces %}
+- name: owner_override-{{namespace.cluster}}/{{namespace.metadata.name}}
+  if:
+    changed_files:
+      paths:
+      - ^releases/{{namespace.cluster}}/{{namespace.metadata.name}}.*$
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    {% for user in namespace.owners -%}
+    - {{user}}
+    {%- endfor %}
+{% endfor %}
+
+# Admin override
+- if:
+    changed_files:
+      paths:
+      - ^.*$
+  name: admin_override
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+policy:
+  approval:
+  - or:
+    # "regular" owner approvals
+    - and:
+      {% for namespace in cluster_namespaces -%}
+      - owner_regular-{{namespace.cluster}}/{{namespace.metadata.name}}
+      {% endfor %}
+    # "override" owner approvals
+    - and:
+      {% for namespace in cluster_namespaces -%}
+      - owner_override-{{namespace.cluster}}/{{namespace.metadata.name}}
+      {% endfor %}
+    - admin_override
+

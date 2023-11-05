@@ -2,6 +2,34 @@ approval_rules:
 - if:
     changed_files:
       paths:
+      - ^releases/devcluster/example.*$
+  name: owner_regular-devcluster/example
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/devcluster/podinfo.*$
+  name: owner_regular-devcluster/podinfo
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
       - ^releases/prodcluster/example.*$
   name: owner_regular-prodcluster/example
   options:
@@ -11,22 +39,8 @@ approval_rules:
       github_review: true
   requires:
     count: 1
-    users: &id001
+    users:
     - jacksontj
-- if:
-    changed_files:
-      paths:
-      - ^releases/prodcluster/example.*$
-  name: owner_override-prodcluster/example
-  options:
-    allow_author: true
-    invalidate_on_push: true
-    methods:
-      comments:
-      - FORCE_COMMIT
-  requires:
-    count: 1
-    users: *id001
 - if:
     changed_files:
       paths:
@@ -39,27 +53,13 @@ approval_rules:
       github_review: true
   requires:
     count: 1
-    users: &id002
+    users:
     - jacksontj
 - if:
     changed_files:
       paths:
-      - ^releases/prodcluster/podinfo.*$
-  name: owner_override-prodcluster/podinfo
-  options:
-    allow_author: true
-    invalidate_on_push: true
-    methods:
-      comments:
-      - FORCE_COMMIT
-  requires:
-    count: 1
-    users: *id002
-- if:
-    changed_files:
-      paths:
-      - ^releases/devcluster/example.*$
-  name: owner_regular-devcluster/example
+      - ^releases/stagecluster/example.*$
+  name: owner_regular-stagecluster/example
   options:
     allow_author: false
     invalidate_on_push: true
@@ -67,7 +67,21 @@ approval_rules:
       github_review: true
   requires:
     count: 1
-    users: &id003
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/stagecluster/podinfo.*$
+  name: owner_regular-stagecluster/podinfo
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
     - jacksontj
 - if:
     changed_files:
@@ -82,20 +96,7 @@ approval_rules:
       - FORCE_COMMIT
   requires:
     count: 1
-    users: *id003
-- if:
-    changed_files:
-      paths:
-      - ^releases/devcluster/podinfo.*$
-  name: owner_regular-devcluster/podinfo
-  options:
-    allow_author: false
-    invalidate_on_push: true
-    methods:
-      github_review: true
-  requires:
-    count: 1
-    users: &id004
+    users:
     - jacksontj
 - if:
     changed_files:
@@ -110,20 +111,37 @@ approval_rules:
       - FORCE_COMMIT
   requires:
     count: 1
-    users: *id004
+    users:
+    - jacksontj
 - if:
     changed_files:
       paths:
-      - ^releases/stagecluster/example.*$
-  name: owner_regular-stagecluster/example
+      - ^releases/prodcluster/example.*$
+  name: owner_override-prodcluster/example
   options:
-    allow_author: false
+    allow_author: true
     invalidate_on_push: true
     methods:
-      github_review: true
+      comments:
+      - FORCE_COMMIT
   requires:
     count: 1
-    users: &id005
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/prodcluster/podinfo.*$
+  name: owner_override-prodcluster/podinfo
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
     - jacksontj
 - if:
     changed_files:
@@ -138,20 +156,7 @@ approval_rules:
       - FORCE_COMMIT
   requires:
     count: 1
-    users: *id005
-- if:
-    changed_files:
-      paths:
-      - ^releases/stagecluster/podinfo.*$
-  name: owner_regular-stagecluster/podinfo
-  options:
-    allow_author: false
-    invalidate_on_push: true
-    methods:
-      github_review: true
-  requires:
-    count: 1
-    users: &id006
+    users:
     - jacksontj
 - if:
     changed_files:
@@ -166,7 +171,8 @@ approval_rules:
       - FORCE_COMMIT
   requires:
     count: 1
-    users: *id006
+    users:
+    - jacksontj
 - if:
     changed_files:
       paths:
@@ -186,17 +192,17 @@ policy:
   approval:
   - or:
     - and:
-      - owner_regular-prodcluster/example
-      - owner_regular-prodcluster/podinfo
       - owner_regular-devcluster/example
       - owner_regular-devcluster/podinfo
+      - owner_regular-prodcluster/example
+      - owner_regular-prodcluster/podinfo
       - owner_regular-stagecluster/example
       - owner_regular-stagecluster/podinfo
     - and:
-      - owner_override-prodcluster/example
-      - owner_override-prodcluster/podinfo
       - owner_override-devcluster/example
       - owner_override-devcluster/podinfo
+      - owner_override-prodcluster/example
+      - owner_override-prodcluster/podinfo
       - owner_override-stagecluster/example
       - owner_override-stagecluster/podinfo
     - admin_override
