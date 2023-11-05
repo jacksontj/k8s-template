@@ -18,7 +18,7 @@ def combine_policies(policies, op):
 def if_clause_for_filepaths(filepaths):
     return {
         'changed_files': {
-            'paths': filepaths,
+            'paths': sorted(filepaths),
         },
     }
 
