@@ -22,14 +22,14 @@ def if_clause_for_filepaths(filepaths):
         },
     }
 
-def get_owners_of_namespace(filepath):
+def approvers_for_namespace(filepath):
     '''Return a unique key of the owners, and an object containing ownership
     '''
     with open(filepath) as fh:
         for obj in yaml.safe_load_all(fh):
             if obj['kind'] == 'Namespace':
                 owners = sorted(obj['metadata']['labels'].get('owners', '').split(','))
-                return ','.join(owners), {'users': owners}
+                return {'users': owners}
 
     raise Exception()
 
@@ -68,7 +68,9 @@ if __name__ == '__main__':
     # Spin over "release directory" to determine who owns what files
     release_outputs = glob.glob("releases/*/release/*/_namespace.yaml")
     for output in release_outputs:
-        key, approvers = get_owners_of_namespace(output)
+        output_parts = output.split('/')
+        key = output_parts[1]+'/'+output_parts[3]
+        approvers = approvers_for_namespace(output)
         if key not in ownership_dict:
             ownership_dict[key] = OwnerEntry(approvers, [])
         ownership_dict[key].filepaths.append(output)
