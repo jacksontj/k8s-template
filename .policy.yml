@@ -64,7 +64,10 @@ approval_rules:
   requires:
     count: 1
     users: *id004
-- name: admin_override
+- if:
+    changed_files:
+      paths: ^.*$
+  name: admin_override
   options:
     allow_author: true
     invalidate_on_push: true
