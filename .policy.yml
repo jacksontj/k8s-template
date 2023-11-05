@@ -75,6 +75,10 @@ approval_rules:
     methods:
       comments:
       - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
 policy:
   approval:
   - or:
