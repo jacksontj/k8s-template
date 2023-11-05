@@ -1,9 +1,68 @@
+approval_rules:
+- if:
+    changed_files:
+      paths: &id001
+      - ./releases/prodcluster/release/example/_namespace.yaml
+      - ./releases/prodcluster/release/podinfo-helm/_namespace.yaml
+      - ./releases/prodcluster/release/examplechange/_namespace.yaml
+      - ./releases/devcluster/release/example/_namespace.yaml
+      - ./releases/devcluster/release/podinfo-helm/_namespace.yaml
+      - ./releases/devcluster/release/examplechange/_namespace.yaml
+      - ./releases/stagecluster/release/example/_namespace.yaml
+      - ./releases/stagecluster/release/podinfo-helm/_namespace.yaml
+      - ./releases/stagecluster/release/examplechange/_namespace.yaml
+  methods:
+    github_review: true
+  name: owner_regular-jacksontj
+  options: null
+  requires:
+    count: 1
+    users: &id002
+    - jacksontj
+- if:
+    changed_files:
+      paths: *id001
+  methods:
+    comments:
+    - FORCE_COMMIT
+  name: owner_override-jacksontj
+  options: null
+  requires:
+    count: 1
+    users: *id002
+- if:
+    changed_files:
+      paths: &id003
+      - ./releases/prodcluster/release/podinfo/_namespace.yaml
+      - ./releases/devcluster/release/podinfo/_namespace.yaml
+      - ./releases/stagecluster/release/podinfo/_namespace.yaml
+  methods:
+    github_review: true
+  name: owner_regular-jacksontj,someoneelse
+  options: null
+  requires:
+    count: 1
+    users: &id004
+    - jacksontj
+    - someoneelse
+- if:
+    changed_files:
+      paths: *id003
+  methods:
+    comments:
+    - FORCE_COMMIT
+  name: owner_override-jacksontj,someoneelse
+  options: null
+  requires:
+    count: 1
+    users: *id004
 policy:
   approval:
-    - basereview
+  - or:
+    - and:
+      - owner_regular-jacksontj
+      - owner_regular-jacksontj,someoneelse
+    - and:
+      - owner_override-jacksontj
+      - owner_override-jacksontj,someoneelse
 
-approval_rules:
-  - name: basereview
-    requires:
-      count: 1
-      users: ["jacksontj"]
