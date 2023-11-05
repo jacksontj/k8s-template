@@ -1,17 +1,37 @@
 approval_rules:
 - if:
     changed_files:
-      paths: &id001
+      paths:
       - releases/devcluster/release/examplechange/_namespace.yaml
-      - releases/devcluster/release/podinfo/_namespace.yaml
-      - releases/devcluster/release/podinfo-helm/_namespace.yaml
-      - releases/stagecluster/release/examplechange/_namespace.yaml
-      - releases/stagecluster/release/podinfo/_namespace.yaml
-      - releases/stagecluster/release/podinfo-helm/_namespace.yaml
-      - releases/prodcluster/release/examplechange/_namespace.yaml
-      - releases/prodcluster/release/podinfo/_namespace.yaml
-      - releases/prodcluster/release/podinfo-helm/_namespace.yaml
-  name: owner_regular-jacksontj
+  name: owner_regular-devcluster/examplechange
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id001
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - releases/devcluster/release/examplechange/_namespace.yaml
+  name: owner_override-devcluster/examplechange
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id001
+- if:
+    changed_files:
+      paths:
+      - releases/devcluster/release/example/_namespace.yaml
+  name: owner_regular-devcluster/example
   options:
     allow_author: false
     invalidate_on_push: true
@@ -21,10 +41,12 @@ approval_rules:
     count: 1
     users: &id002
     - jacksontj
+    - otheruser
 - if:
     changed_files:
-      paths: *id001
-  name: owner_override-jacksontj
+      paths:
+      - releases/devcluster/release/example/_namespace.yaml
+  name: owner_override-devcluster/example
   options:
     allow_author: true
     invalidate_on_push: true
@@ -36,11 +58,37 @@ approval_rules:
     users: *id002
 - if:
     changed_files:
-      paths: &id003
-      - releases/devcluster/release/example/_namespace.yaml
-      - releases/stagecluster/release/example/_namespace.yaml
-      - releases/prodcluster/release/example/_namespace.yaml
-  name: owner_regular-jacksontj,otheruser
+      paths:
+      - releases/devcluster/release/podinfo/_namespace.yaml
+  name: owner_regular-devcluster/podinfo
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id003
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - releases/devcluster/release/podinfo/_namespace.yaml
+  name: owner_override-devcluster/podinfo
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id003
+- if:
+    changed_files:
+      paths:
+      - releases/devcluster/release/podinfo-helm/_namespace.yaml
+  name: owner_regular-devcluster/podinfo-helm
   options:
     allow_author: false
     invalidate_on_push: true
@@ -50,11 +98,11 @@ approval_rules:
     count: 1
     users: &id004
     - jacksontj
-    - otheruser
 - if:
     changed_files:
-      paths: *id003
-  name: owner_override-jacksontj,otheruser
+      paths:
+      - releases/devcluster/release/podinfo-helm/_namespace.yaml
+  name: owner_override-devcluster/podinfo-helm
   options:
     allow_author: true
     invalidate_on_push: true
@@ -64,6 +112,232 @@ approval_rules:
   requires:
     count: 1
     users: *id004
+- if:
+    changed_files:
+      paths:
+      - releases/stagecluster/release/examplechange/_namespace.yaml
+  name: owner_regular-stagecluster/examplechange
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id005
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - releases/stagecluster/release/examplechange/_namespace.yaml
+  name: owner_override-stagecluster/examplechange
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id005
+- if:
+    changed_files:
+      paths:
+      - releases/stagecluster/release/example/_namespace.yaml
+  name: owner_regular-stagecluster/example
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id006
+    - jacksontj
+    - otheruser
+- if:
+    changed_files:
+      paths:
+      - releases/stagecluster/release/example/_namespace.yaml
+  name: owner_override-stagecluster/example
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id006
+- if:
+    changed_files:
+      paths:
+      - releases/stagecluster/release/podinfo/_namespace.yaml
+  name: owner_regular-stagecluster/podinfo
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id007
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - releases/stagecluster/release/podinfo/_namespace.yaml
+  name: owner_override-stagecluster/podinfo
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id007
+- if:
+    changed_files:
+      paths:
+      - releases/stagecluster/release/podinfo-helm/_namespace.yaml
+  name: owner_regular-stagecluster/podinfo-helm
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id008
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - releases/stagecluster/release/podinfo-helm/_namespace.yaml
+  name: owner_override-stagecluster/podinfo-helm
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id008
+- if:
+    changed_files:
+      paths:
+      - releases/prodcluster/release/examplechange/_namespace.yaml
+  name: owner_regular-prodcluster/examplechange
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id009
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - releases/prodcluster/release/examplechange/_namespace.yaml
+  name: owner_override-prodcluster/examplechange
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id009
+- if:
+    changed_files:
+      paths:
+      - releases/prodcluster/release/example/_namespace.yaml
+  name: owner_regular-prodcluster/example
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id010
+    - jacksontj
+    - otheruser
+- if:
+    changed_files:
+      paths:
+      - releases/prodcluster/release/example/_namespace.yaml
+  name: owner_override-prodcluster/example
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id010
+- if:
+    changed_files:
+      paths:
+      - releases/prodcluster/release/podinfo/_namespace.yaml
+  name: owner_regular-prodcluster/podinfo
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id011
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - releases/prodcluster/release/podinfo/_namespace.yaml
+  name: owner_override-prodcluster/podinfo
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id011
+- if:
+    changed_files:
+      paths:
+      - releases/prodcluster/release/podinfo-helm/_namespace.yaml
+  name: owner_regular-prodcluster/podinfo-helm
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users: &id012
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - releases/prodcluster/release/podinfo-helm/_namespace.yaml
+  name: owner_override-prodcluster/podinfo-helm
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users: *id012
 - if:
     changed_files:
       paths:
@@ -83,10 +357,30 @@ policy:
   approval:
   - or:
     - and:
-      - owner_regular-jacksontj
-      - owner_regular-jacksontj,otheruser
+      - owner_regular-devcluster/examplechange
+      - owner_regular-devcluster/example
+      - owner_regular-devcluster/podinfo
+      - owner_regular-devcluster/podinfo-helm
+      - owner_regular-stagecluster/examplechange
+      - owner_regular-stagecluster/example
+      - owner_regular-stagecluster/podinfo
+      - owner_regular-stagecluster/podinfo-helm
+      - owner_regular-prodcluster/examplechange
+      - owner_regular-prodcluster/example
+      - owner_regular-prodcluster/podinfo
+      - owner_regular-prodcluster/podinfo-helm
     - and:
-      - owner_override-jacksontj
-      - owner_override-jacksontj,otheruser
+      - owner_override-devcluster/examplechange
+      - owner_override-devcluster/example
+      - owner_override-devcluster/podinfo
+      - owner_override-devcluster/podinfo-helm
+      - owner_override-stagecluster/examplechange
+      - owner_override-stagecluster/example
+      - owner_override-stagecluster/podinfo
+      - owner_override-stagecluster/podinfo-helm
+      - owner_override-prodcluster/examplechange
+      - owner_override-prodcluster/example
+      - owner_override-prodcluster/podinfo
+      - owner_override-prodcluster/podinfo-helm
     - admin_override
 
