@@ -1,6 +1,6 @@
 approval_rules:
 {# create the "regular owner" rules #}
-{% for env in environments %}
+{% for env in environments -%}
 - name: owner_regular-{{env.metadata.labels.cluster}}/{{env.spec.namespace}}
   if:
     changed_files:
@@ -20,7 +20,7 @@ approval_rules:
 {% endfor %}
 
 {# create the "override owner" rules #}
-{% for env in environments %}
+{% for env in environments -%}
 - name: owner_override-{{env.metadata.labels.cluster}}/{{env.spec.namespace}}
   if:
     changed_files:
@@ -61,12 +61,12 @@ policy:
   - or:
     # "regular" owner approvals
     - and:
-      {% for env in environments %}
+      {% for env in environments -%}
       - owner_regular-{{env.metadata.labels.cluster}}/{{env.spec.namespace}}
       {% endfor %}
     # "override" owner approvals
     - and:
-      {% for env in environments %}
+      {% for env in environments -%}
       - owner_override-{{env.metadata.labels.cluster}}/{{env.spec.namespace}}
       {% endfor %}
     - admin_override

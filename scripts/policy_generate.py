@@ -25,4 +25,7 @@ if __name__ == '__main__':
         environments=environments,
     )
 
+    # TODO: flag??
+    #print (content)
+    # reload and dump to clean up whitespace etc.
     print (yaml.dump(yaml.safe_load(content)))
