@@ -12,7 +12,11 @@ approval_rules:
       - releases/stagecluster/release/podinfo-helm/_namespace.yaml
       - releases/stagecluster/release/examplechange/_namespace.yaml
   name: owner_regular-jacksontj
-  options: null
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
   requires:
     count: 1
     users: &id002
@@ -21,7 +25,12 @@ approval_rules:
     changed_files:
       paths: *id001
   name: owner_override-jacksontj
-  options: null
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
   requires:
     count: 1
     users: *id002
@@ -32,7 +41,11 @@ approval_rules:
       - releases/devcluster/release/podinfo/_namespace.yaml
       - releases/stagecluster/release/podinfo/_namespace.yaml
   name: owner_regular-jacksontj,someoneelse
-  options: null
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
   requires:
     count: 1
     users: &id004
@@ -42,7 +55,12 @@ approval_rules:
     changed_files:
       paths: *id003
   name: owner_override-jacksontj,someoneelse
-  options: null
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
   requires:
     count: 1
     users: *id004
