@@ -1,0 +1,22 @@
+{
+    "example": {
+        "owners": [
+            "jacksontj"
+        ]
+    },
+    "examplechange": {
+        "owners": [
+            "jacksontj"
+        ]
+    },
+    "podinfo": {
+        "owners": [
+            "jacksontj"
+        ]
+    },
+    "podinfo-helm": {
+        "owners": [
+            "jacksontj"
+        ]
+    }
+}

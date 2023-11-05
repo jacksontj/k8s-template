@@ -1,4 +1,12 @@
+local serviceRegistry = import 'imported/service_registry.json';
+
 function(name, labels={}, enablePathProtector=false) [
+
+  assert name in serviceRegistry : 'namespace must be in service registry';
+  local registryLabels = {
+    owners: std.join(',', serviceRegistry[name].owners),
+  };
+
   {
     kind: 'Namespace',
     apiVersion: 'v1',
@@ -7,7 +15,7 @@ function(name, labels={}, enablePathProtector=false) [
       labels: {
         name: name,
         [if enablePathProtector then 'path-protector']: 'enabled',
-      } + labels,
+      } + labels + registryLabels,
     },
   },
 

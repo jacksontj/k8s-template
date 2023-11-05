@@ -4,7 +4,8 @@
    "kind": "Namespace",
    "metadata": {
       "labels": {
-         "name": "example"
+         "name": "example",
+         "owners": "jacksontj"
       },
       "name": "example"
    }
