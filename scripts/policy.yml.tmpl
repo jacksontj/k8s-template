@@ -14,7 +14,7 @@ approval_rules:
   requires:
     count: 1
     users:
-    {% for user in env.namespace.owners -%}
+    {% for user in env.obj.Namespace[env.spec.namespace].metadata.labels.owners.split(',') -%}
     - {{user}}
     {%- endfor %}
 {% endfor %}
@@ -35,7 +35,7 @@ approval_rules:
   requires:
     count: 1
     users:
-    {% for user in env.namespace.owners -%}
+    {% for user in env.obj.Namespace[env.spec.namespace].metadata.labels.owners.split(',') -%}
     - {{user}}
     {%- endfor %}
 {% endfor %}
