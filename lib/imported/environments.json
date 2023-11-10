@@ -165,6 +165,60 @@
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "name": "metrics-server/devcluster",
+      "namespace": "environments/metrics-server/main.jsonnet",
+      "labels": {
+        "cluster": "devcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "metrics-server",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "metrics-server/prodcluster",
+      "namespace": "environments/metrics-server/main.jsonnet",
+      "labels": {
+        "cluster": "prodcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "metrics-server",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "metrics-server/stagecluster",
+      "namespace": "environments/metrics-server/main.jsonnet",
+      "labels": {
+        "cluster": "stagecluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "metrics-server",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
       "name": "podinfo/devcluster",
       "namespace": "environments/podinfo/main.jsonnet",
       "labels": {

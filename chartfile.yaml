@@ -6,6 +6,8 @@ repositories:
   url: https://stefanprodan.github.io/podinfo
 - name: prometheus_community
   url: https://prometheus-community.github.io/helm-charts
+- name: metrics_server
+  url: https://kubernetes-sigs.github.io/metrics-server/
 requires:
 - chart: examples/hello-world
   version: 0.1.0
@@ -13,4 +15,6 @@ requires:
   version: 6.3.5
 - chart: prometheus_community/kube-state-metrics
   version: 5.15.1
+- chart: metrics_server/metrics-server
+  version: 3.11.0
 version: 1

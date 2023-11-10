@@ -19,6 +19,11 @@
             "jacksontj"
         ]
     },
+    "metrics-server": {
+        "owners": [
+            "jacksontj"
+        ]
+    },
     "kube-state-metrics": {
         "owners": [
             "jacksontj"
