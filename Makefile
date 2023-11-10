@@ -10,7 +10,7 @@ compile:
 	@# we need to add a flag for `--merge-deleted-envs` for each env which is no longer present
 	@# for now we're mashing this up in bash; but if this gets much more complex we may wrap
 	@# this whole thing in a python script
-	tk export -V 'rootDir=$(shell pwd)' releases environments/ --recursive --format '{{env.metadata.labels.cluster}}/{{env.spec.namespace}}/{{.kind}}-{{.metadata.name}}' -c .cache --merge-strategy replace-envs $(shell ./scripts/missing_envs.py | sed 's/^/--merge-deleted-envs /')
+	tk export -V 'rootDir=$(shell pwd)' releases environments/ --recursive --format '{{env.metadata.labels.cluster}}/{{if .metadata.namespace}}{{.metadata.namespace}}{{ else }}{{ if eq .kind "Namespace"}}{{.metadata.name}}{{ else }}global{{end}}{{end}}/{{.kind}}-{{.metadata.name}}' -c .cache --merge-strategy replace-envs $(shell ./scripts/missing_envs.py | sed 's/^/--merge-deleted-envs /')
 	@# prune empty directories if we created any
 	find releases/ -type d -empty -delete
 

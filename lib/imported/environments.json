@@ -57,6 +57,60 @@
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "name": "global/devcluster",
+      "namespace": "environments/global/main.jsonnet",
+      "labels": {
+        "cluster": "devcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "global",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "global/prodcluster",
+      "namespace": "environments/global/main.jsonnet",
+      "labels": {
+        "cluster": "prodcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "global",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "global/stagecluster",
+      "namespace": "environments/global/main.jsonnet",
+      "labels": {
+        "cluster": "stagecluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "global",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
       "name": "podinfo/devcluster",
       "namespace": "environments/podinfo/main.jsonnet",
       "labels": {
