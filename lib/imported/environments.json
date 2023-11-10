@@ -111,6 +111,60 @@
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "name": "kube-state-metrics/devcluster",
+      "namespace": "environments/kube-state-metrics/main.jsonnet",
+      "labels": {
+        "cluster": "devcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "kube-state-metrics",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "kube-state-metrics/prodcluster",
+      "namespace": "environments/kube-state-metrics/main.jsonnet",
+      "labels": {
+        "cluster": "prodcluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "kube-state-metrics",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
+      "name": "kube-state-metrics/stagecluster",
+      "namespace": "environments/kube-state-metrics/main.jsonnet",
+      "labels": {
+        "cluster": "stagecluster",
+        "region": "us-east-1"
+      }
+    },
+    "spec": {
+      "apiServer": "https://noop",
+      "namespace": "kube-state-metrics",
+      "resourceDefaults": {},
+      "expectVersions": {}
+    }
+  },
+  {
+    "apiVersion": "tanka.dev/v1alpha1",
+    "kind": "Environment",
+    "metadata": {
       "name": "podinfo/devcluster",
       "namespace": "environments/podinfo/main.jsonnet",
       "labels": {

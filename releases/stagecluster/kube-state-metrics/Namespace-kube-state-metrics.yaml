@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: kube-state-metrics
+    owners: jacksontj
+  name: kube-state-metrics

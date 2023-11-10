@@ -4,9 +4,13 @@ repositories:
   url: https://helm.github.io/examples
 - name: podinfo
   url: https://stefanprodan.github.io/podinfo
+- name: prometheus_community
+  url: https://prometheus-community.github.io/helm-charts
 requires:
 - chart: examples/hello-world
   version: 0.1.0
 - chart: podinfo/podinfo
   version: 6.3.5
+- chart: prometheus_community/kube-state-metrics
+  version: 5.15.1
 version: 1
