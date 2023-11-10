@@ -21,7 +21,7 @@ This repository is aspiring to be a template for enterprise managment of k8s res
 
 ## requirements
 - jsonnet
-- python-gjsonnet (pip3 install gojsonnet)
+- python-gosonnet (pip3 install gojsonnet)
 - python-yaml
 - [kubeconform](https://github.com/yannh/kubeconform)
 - [helm](https://helm.sh/docs/helm/helm_install/)
