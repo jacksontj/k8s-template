@@ -48,4 +48,4 @@ clean-all:
 
 .PHONY: policy
 policy:
-	./scripts/policy_generate.py | tee .policy.yml
+	./scripts/policy_generate.py > .policy.yml
