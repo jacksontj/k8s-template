@@ -15,7 +15,7 @@ import yaml
 import collections
 import tests.plugins
 
-KEY = collections.namedtuple("Key", ["kind", "name"])
+KEY = collections.namedtuple("Key", ["kind", "apiVersion", "name"])
 
 # for each release dir (cluster) we want to run the tests
 for item in os.listdir(RELEASE_DIR):
@@ -40,7 +40,7 @@ for item in os.listdir(RELEASE_DIR):
             # check for conflicting namespaces
             with open(filepath) as fh:
                 for obj in yaml.safe_load_all(fh):
-                    key = KEY(obj["kind"], obj["metadata"]["name"])
+                    key = KEY(obj["kind"], obj["apiVersion"], obj["metadata"]["name"])
                     for k, v in cluster_tests.items():
                         v.evaluate_manifest(
                             filepath,
