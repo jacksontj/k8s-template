@@ -7,6 +7,7 @@
       "namespace": "environments/example/main.jsonnet",
       "labels": {
         "cluster": "devcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -25,6 +26,7 @@
       "namespace": "environments/example/main.jsonnet",
       "labels": {
         "cluster": "prodcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -43,6 +45,7 @@
       "namespace": "environments/example/main.jsonnet",
       "labels": {
         "cluster": "stagecluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -61,6 +64,7 @@
       "namespace": "environments/global/main.jsonnet",
       "labels": {
         "cluster": "devcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -79,6 +83,7 @@
       "namespace": "environments/global/main.jsonnet",
       "labels": {
         "cluster": "prodcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -97,6 +102,7 @@
       "namespace": "environments/global/main.jsonnet",
       "labels": {
         "cluster": "stagecluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -115,6 +121,7 @@
       "namespace": "environments/kube-state-metrics/main.jsonnet",
       "labels": {
         "cluster": "devcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -133,6 +140,7 @@
       "namespace": "environments/kube-state-metrics/main.jsonnet",
       "labels": {
         "cluster": "prodcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -151,6 +159,7 @@
       "namespace": "environments/kube-state-metrics/main.jsonnet",
       "labels": {
         "cluster": "stagecluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -169,6 +178,7 @@
       "namespace": "environments/metrics-server/main.jsonnet",
       "labels": {
         "cluster": "devcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -187,6 +197,7 @@
       "namespace": "environments/metrics-server/main.jsonnet",
       "labels": {
         "cluster": "prodcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -205,6 +216,7 @@
       "namespace": "environments/metrics-server/main.jsonnet",
       "labels": {
         "cluster": "stagecluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -223,6 +235,7 @@
       "namespace": "environments/podinfo/main.jsonnet",
       "labels": {
         "cluster": "devcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -241,6 +254,7 @@
       "namespace": "environments/podinfo/main.jsonnet",
       "labels": {
         "cluster": "prodcluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },
@@ -259,6 +273,7 @@
       "namespace": "environments/podinfo/main.jsonnet",
       "labels": {
         "cluster": "stagecluster",
+        "owners": "jacksontj",
         "region": "us-east-1"
       }
     },

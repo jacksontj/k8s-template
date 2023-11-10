@@ -1,4 +1,9 @@
 {
+    "global": {
+        "owners": [
+            "jacksontj"
+        ]
+    },
     "example": {
         "owners": [
             "jacksontj"
