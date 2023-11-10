@@ -13,7 +13,7 @@ function(name, labels={}, serviceName=null) [
       labels: {
         name: name,
       } + labels + {
-        owners: std.join(',', serviceCatalog[name].owners),
+        owners: std.join(',', serviceCatalog[key].owners),
         // TODO: also define oncall
       },
     },
