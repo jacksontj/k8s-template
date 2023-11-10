@@ -6,7 +6,7 @@ all: fmt compile test
 
 .PHONY: compile
 compile:
-	tk env list --json | jq > lib/imported/environments.json
+	tk env list --json | jq -S > lib/imported/environments.json
 	@# we need to add a flag for `--merge-deleted-envs` for each env which is no longer present
 	@# for now we're mashing this up in bash; but if this gets much more complex we may wrap
 	@# this whole thing in a python script

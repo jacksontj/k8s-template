@@ -3,285 +3,285 @@
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "devcluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "example/devcluster",
-      "namespace": "environments/example/main.jsonnet",
-      "labels": {
-        "cluster": "devcluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/example/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "example",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "prodcluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "example/prodcluster",
-      "namespace": "environments/example/main.jsonnet",
-      "labels": {
-        "cluster": "prodcluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/example/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "example",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "stagecluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "example/stagecluster",
-      "namespace": "environments/example/main.jsonnet",
-      "labels": {
-        "cluster": "stagecluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/example/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "example",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "devcluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "global/devcluster",
-      "namespace": "environments/global/main.jsonnet",
-      "labels": {
-        "cluster": "devcluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/global/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "global",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "prodcluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "global/prodcluster",
-      "namespace": "environments/global/main.jsonnet",
-      "labels": {
-        "cluster": "prodcluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/global/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "global",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "stagecluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "global/stagecluster",
-      "namespace": "environments/global/main.jsonnet",
-      "labels": {
-        "cluster": "stagecluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/global/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "global",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "devcluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "kube-state-metrics/devcluster",
-      "namespace": "environments/kube-state-metrics/main.jsonnet",
-      "labels": {
-        "cluster": "devcluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/kube-state-metrics/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "kube-state-metrics",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "prodcluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "kube-state-metrics/prodcluster",
-      "namespace": "environments/kube-state-metrics/main.jsonnet",
-      "labels": {
-        "cluster": "prodcluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/kube-state-metrics/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "kube-state-metrics",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "stagecluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "kube-state-metrics/stagecluster",
-      "namespace": "environments/kube-state-metrics/main.jsonnet",
-      "labels": {
-        "cluster": "stagecluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/kube-state-metrics/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "kube-state-metrics",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "devcluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "metrics-server/devcluster",
-      "namespace": "environments/metrics-server/main.jsonnet",
-      "labels": {
-        "cluster": "devcluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/metrics-server/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "metrics-server",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
+      "labels": {
+        "cluster": "prodcluster",
+        "owners": "jacksontj",
+        "region": "us-east-1"
+      },
       "name": "metrics-server/prodcluster",
-      "namespace": "environments/metrics-server/main.jsonnet",
-      "labels": {
-        "cluster": "prodcluster",
-        "owners": "jacksontj",
-        "region": "us-east-1"
-      }
+      "namespace": "environments/metrics-server/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "metrics-server",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
-      "name": "metrics-server/stagecluster",
-      "namespace": "environments/metrics-server/main.jsonnet",
       "labels": {
         "cluster": "stagecluster",
         "owners": "jacksontj",
         "region": "us-east-1"
-      }
+      },
+      "name": "metrics-server/stagecluster",
+      "namespace": "environments/metrics-server/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "metrics-server",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
-      "name": "podinfo/devcluster",
-      "namespace": "environments/podinfo/main.jsonnet",
       "labels": {
         "cluster": "devcluster",
         "owners": "jacksontj",
         "region": "us-east-1"
-      }
+      },
+      "name": "podinfo/devcluster",
+      "namespace": "environments/podinfo/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "podinfo",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
-      "name": "podinfo/prodcluster",
-      "namespace": "environments/podinfo/main.jsonnet",
       "labels": {
         "cluster": "prodcluster",
         "owners": "jacksontj",
         "region": "us-east-1"
-      }
+      },
+      "name": "podinfo/prodcluster",
+      "namespace": "environments/podinfo/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "podinfo",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   },
   {
     "apiVersion": "tanka.dev/v1alpha1",
     "kind": "Environment",
     "metadata": {
-      "name": "podinfo/stagecluster",
-      "namespace": "environments/podinfo/main.jsonnet",
       "labels": {
         "cluster": "stagecluster",
         "owners": "jacksontj",
         "region": "us-east-1"
-      }
+      },
+      "name": "podinfo/stagecluster",
+      "namespace": "environments/podinfo/main.jsonnet"
     },
     "spec": {
       "apiServer": "https://noop",
+      "expectVersions": {},
       "namespace": "podinfo",
-      "resourceDefaults": {},
-      "expectVersions": {}
+      "resourceDefaults": {}
     }
   }
 ]
