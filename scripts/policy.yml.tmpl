@@ -5,7 +5,7 @@ approval_rules:
   if:
     changed_files:
       paths:
-      - ^releases/{{env.metadata.labels.cluster}}/{{env.spec.namespace}}.*$
+      - ^releases/{{env.metadata.labels.cluster}}/{{env.spec.namespace}}/.*$
   options:
     allow_author: false
     invalidate_on_push: true
@@ -14,7 +14,7 @@ approval_rules:
   requires:
     count: 1
     users:
-    {% for user in env.obj.Namespace[env.spec.namespace].metadata.labels.owners.split(',') -%}
+    {% for user in env.metadata.labels.owners.split(',') %}
     - {{user}}
     {%- endfor %}
 {% endfor %}
@@ -25,7 +25,7 @@ approval_rules:
   if:
     changed_files:
       paths:
-      - ^releases/{{env.metadata.labels.cluster}}/{{env.spec.namespace}}.*$
+      - ^releases/{{env.metadata.labels.cluster}}/{{env.spec.namespace}}/.*$
   options:
     allow_author: true
     invalidate_on_push: true
@@ -35,7 +35,7 @@ approval_rules:
   requires:
     count: 1
     users:
-    {% for user in env.obj.Namespace[env.spec.namespace].metadata.labels.owners.split(',') -%}
+    {% for user in env.metadata.labels.owners.split(',') %}
     - {{user}}
     {%- endfor %}
 {% endfor %}

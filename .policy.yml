@@ -2,7 +2,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/devcluster/example.*$
+      - ^releases/devcluster/example/.*$
   name: owner_regular-devcluster/example
   options:
     allow_author: false
@@ -16,7 +16,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/prodcluster/example.*$
+      - ^releases/prodcluster/example/.*$
   name: owner_regular-prodcluster/example
   options:
     allow_author: false
@@ -30,7 +30,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/stagecluster/example.*$
+      - ^releases/stagecluster/example/.*$
   name: owner_regular-stagecluster/example
   options:
     allow_author: false
@@ -44,7 +44,133 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/devcluster/podinfo.*$
+      - ^releases/devcluster/global/.*$
+  name: owner_regular-devcluster/global
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/prodcluster/global/.*$
+  name: owner_regular-prodcluster/global
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/stagecluster/global/.*$
+  name: owner_regular-stagecluster/global
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/devcluster/kube-state-metrics/.*$
+  name: owner_regular-devcluster/kube-state-metrics
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/prodcluster/kube-state-metrics/.*$
+  name: owner_regular-prodcluster/kube-state-metrics
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/stagecluster/kube-state-metrics/.*$
+  name: owner_regular-stagecluster/kube-state-metrics
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/devcluster/metrics-server/.*$
+  name: owner_regular-devcluster/metrics-server
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/prodcluster/metrics-server/.*$
+  name: owner_regular-prodcluster/metrics-server
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/stagecluster/metrics-server/.*$
+  name: owner_regular-stagecluster/metrics-server
+  options:
+    allow_author: false
+    invalidate_on_push: true
+    methods:
+      github_review: true
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/devcluster/podinfo/.*$
   name: owner_regular-devcluster/podinfo
   options:
     allow_author: false
@@ -58,7 +184,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/prodcluster/podinfo.*$
+      - ^releases/prodcluster/podinfo/.*$
   name: owner_regular-prodcluster/podinfo
   options:
     allow_author: false
@@ -72,7 +198,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/stagecluster/podinfo.*$
+      - ^releases/stagecluster/podinfo/.*$
   name: owner_regular-stagecluster/podinfo
   options:
     allow_author: false
@@ -86,7 +212,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/devcluster/example.*$
+      - ^releases/devcluster/example/.*$
   name: owner_override-devcluster/example
   options:
     allow_author: true
@@ -101,7 +227,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/prodcluster/example.*$
+      - ^releases/prodcluster/example/.*$
   name: owner_override-prodcluster/example
   options:
     allow_author: true
@@ -116,7 +242,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/stagecluster/example.*$
+      - ^releases/stagecluster/example/.*$
   name: owner_override-stagecluster/example
   options:
     allow_author: true
@@ -131,7 +257,142 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/devcluster/podinfo.*$
+      - ^releases/devcluster/global/.*$
+  name: owner_override-devcluster/global
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/prodcluster/global/.*$
+  name: owner_override-prodcluster/global
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/stagecluster/global/.*$
+  name: owner_override-stagecluster/global
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/devcluster/kube-state-metrics/.*$
+  name: owner_override-devcluster/kube-state-metrics
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/prodcluster/kube-state-metrics/.*$
+  name: owner_override-prodcluster/kube-state-metrics
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/stagecluster/kube-state-metrics/.*$
+  name: owner_override-stagecluster/kube-state-metrics
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/devcluster/metrics-server/.*$
+  name: owner_override-devcluster/metrics-server
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/prodcluster/metrics-server/.*$
+  name: owner_override-prodcluster/metrics-server
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/stagecluster/metrics-server/.*$
+  name: owner_override-stagecluster/metrics-server
+  options:
+    allow_author: true
+    invalidate_on_push: true
+    methods:
+      comments:
+      - FORCE_COMMIT
+  requires:
+    count: 1
+    users:
+    - jacksontj
+- if:
+    changed_files:
+      paths:
+      - ^releases/devcluster/podinfo/.*$
   name: owner_override-devcluster/podinfo
   options:
     allow_author: true
@@ -146,7 +407,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/prodcluster/podinfo.*$
+      - ^releases/prodcluster/podinfo/.*$
   name: owner_override-prodcluster/podinfo
   options:
     allow_author: true
@@ -161,7 +422,7 @@ approval_rules:
 - if:
     changed_files:
       paths:
-      - ^releases/stagecluster/podinfo.*$
+      - ^releases/stagecluster/podinfo/.*$
   name: owner_override-stagecluster/podinfo
   options:
     allow_author: true
@@ -195,6 +456,15 @@ policy:
       - owner_regular-devcluster/example
       - owner_regular-prodcluster/example
       - owner_regular-stagecluster/example
+      - owner_regular-devcluster/global
+      - owner_regular-prodcluster/global
+      - owner_regular-stagecluster/global
+      - owner_regular-devcluster/kube-state-metrics
+      - owner_regular-prodcluster/kube-state-metrics
+      - owner_regular-stagecluster/kube-state-metrics
+      - owner_regular-devcluster/metrics-server
+      - owner_regular-prodcluster/metrics-server
+      - owner_regular-stagecluster/metrics-server
       - owner_regular-devcluster/podinfo
       - owner_regular-prodcluster/podinfo
       - owner_regular-stagecluster/podinfo
@@ -202,6 +472,15 @@ policy:
       - owner_override-devcluster/example
       - owner_override-prodcluster/example
       - owner_override-stagecluster/example
+      - owner_override-devcluster/global
+      - owner_override-prodcluster/global
+      - owner_override-stagecluster/global
+      - owner_override-devcluster/kube-state-metrics
+      - owner_override-prodcluster/kube-state-metrics
+      - owner_override-stagecluster/kube-state-metrics
+      - owner_override-devcluster/metrics-server
+      - owner_override-prodcluster/metrics-server
+      - owner_override-stagecluster/metrics-server
       - owner_override-devcluster/podinfo
       - owner_override-prodcluster/podinfo
       - owner_override-stagecluster/podinfo

@@ -28,11 +28,7 @@ if __name__ == '__main__':
         environments = json.load(fh)
 
     for env in environments:
-        namespace_file = os.path.join('releases', env['metadata']['labels']['cluster'], env['spec']['namespace'], 'Namespace-'+env['spec']['namespace']+'.yaml')
-        with open(namespace_file) as fh:
-            cluster_namespace = yaml.safe_load(fh)
-            cluster_namespace['owners'] = cluster_namespace['metadata']['labels']['owners'].split(',')
-            env['obj'] = ClusterNamespace(os.path.join('releases', env['metadata']['labels']['cluster'], env['spec']['namespace']))
+        env['obj'] = ClusterNamespace(os.path.join('releases', env['metadata']['labels']['cluster'], env['spec']['namespace']))
 
     environment = jinja2.Environment(loader=jinja2.FileSystemLoader("."))
     template = environment.get_template("scripts/policy.yml.tmpl")
