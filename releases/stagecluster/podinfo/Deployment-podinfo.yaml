@@ -33,7 +33,7 @@ spec:
         - --port-metrics=9797
         - --grpc-port=9999
         - --grpc-service-name=podinfo
-        - --level=debug
+        - --level=info
         - --random-delay=false
         - --random-error=false
         env:
